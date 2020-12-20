@@ -2,8 +2,9 @@ import capSvgData from "./data/cap-positions.json";
 import capsCollected from "./data/caps-collected";
 import Cap from "./models/cap";
 import { computed, reactive } from "vue";
+import uniq from "ramda/es/uniq";
 
-const capState = initCapState(capSvgData);
+const capState = reactive(initCapState(capSvgData));
 function initCapState(capSvgData: CapSvgData[]): CapState {
   const capState: CapState = {};
   capSvgData.forEach(({ cx, cy, r, id }) => {
@@ -25,11 +26,11 @@ function initCapState(capSvgData: CapSvgData[]): CapState {
 
 const breweries = computed<string[]>(() => {
   const breweryNames: string[] = [];
-  capsCollected.forEach((cap: Cap) => {
-    if (cap.brewery === "") return;
-    breweryNames.push(cap.brewery);
+  capsCollected.forEach(({ breweryName }) => {
+    if (breweryName === "") return;
+    breweryNames.push(breweryName);
   });
-  return breweryNames;
+  return uniq(breweryNames);
 });
 
 export { capState, breweries, capsCollected };

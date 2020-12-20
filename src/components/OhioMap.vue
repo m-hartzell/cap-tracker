@@ -21,27 +21,37 @@
           :cy="cap.position.cy"
           :rx="cap.position.rx"
           :ry="cap.position.ry"
-          @click="capElClicked(id)"
-          :class="{ filled: cap.data }"
+          @click="capElClicked($event)"
+          :class="{
+            'fill-current text-white': true,
+            'text-gray-600': cap.data,
+            'fill-current text-green-200': cap.selected,
+          }"
+          style="transform-origin: center"
         />
       </g>
     </svg>
+    <pre>Debug Info: {{ debugInfo }}</pre>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
   import { capState } from "./../cap-state";
+  import { defineComponent, ref, reactive } from "vue";
 
   export default defineComponent({
-    setup() {
-      const capElClicked = (id: string) => {
-        console.log("navigate to ", "/" + id);
+    setup(_props, { emit }) {
+      let debugInfo = ref("");
+      const capElClicked = (event: Event) => {
+        const target = event.target as HTMLElement;
+        debugInfo.value = target.id;
+        emit("cap-clicked", target.id);
       };
 
       return {
         capState,
         capElClicked,
+        debugInfo,
       };
     },
   });
@@ -55,11 +65,5 @@
   }
   path {
     fill: theme("colors.gray.300");
-  }
-  ellipse {
-    fill: #fff;
-  }
-  ellipse.filled {
-    fill: theme("colors.gray.400");
   }
 </style>

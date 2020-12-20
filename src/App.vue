@@ -12,7 +12,7 @@
     <main class="">
       <section>
         <div class="container mx-auto px-8">
-          <ohio-map />
+          <ohio-map @cap-clicked="capClicked" />
         </div>
       </section>
       <section>
@@ -45,18 +45,29 @@
   import { capState, breweries, capsCollected } from "./cap-state";
   import OhioMap from "./components/OhioMap.vue";
 
-  import { defineComponent } from "vue";
+  import { defineComponent, reactive } from "vue";
 
   export default defineComponent({
     components: { OhioMap },
     setup() {
       const appTitle = "Cap Tracker";
       return {
+        capState,
         breweryCount: breweries.value.length,
         appTitle,
         capsCollected: capsCollected.length,
         capsTotal: Object.keys(capState).length,
       };
+    },
+    methods: {
+      toggleCapInfo(capLocationId: string) {
+        return (this.capState[capLocationId].selected = !this.capState[
+          capLocationId
+        ].selected);
+      },
+      capClicked(capLocationId: string) {
+        this.toggleCapInfo(capLocationId);
+      },
     },
   });
 </script>
