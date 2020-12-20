@@ -1,6 +1,8 @@
 {
-  "name": "cap-tracker-client",
+  "name": "cap-tracker",
+  "description": "Fun project to mess with Vite and most likely: DynamoDB and AWS Lambda",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build"
