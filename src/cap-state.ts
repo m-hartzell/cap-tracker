@@ -1,31 +1,7 @@
-import capSvgData from "./cap-svg-data.json";
+import capSvgData from "./data/cap-positions.json";
+import capsCollected from "./data/caps-collected";
+import Cap from "./models/cap";
 import { computed, reactive } from "vue";
-
-type CapSvgData = {
-  id: string;
-  cx: number;
-  cy: number;
-  rx: number;
-  ry: number;
-  r: number;
-};
-
-type Cap = {
-  id: string;
-  brewery: string;
-  dateAddedTimestamp: number;
-  imageUrl: string;
-};
-
-type CapEl = {
-  selected: boolean;
-  position: {};
-  data?: Cap;
-};
-
-type CapState = {
-  [id: string]: CapEl;
-};
 
 const capState = initCapState(capSvgData);
 function initCapState(capSvgData: CapSvgData[]): CapState {
@@ -41,18 +17,19 @@ function initCapState(capSvgData: CapSvgData[]): CapState {
       },
     };
   });
-  console.log(capState);
+  capsCollected.forEach((cap: Cap) => {
+    capState[cap.capLocationId].data = cap;
+  });
   return capState;
 }
 
 const breweries = computed<string[]>(() => {
   const breweryNames: string[] = [];
-  Object.values(capState).forEach((capEl: CapEl) => {
-    if (!capEl.data || capEl.data.brewery == "") return;
-    breweryNames.push(capEl.data.brewery);
+  capsCollected.forEach((cap: Cap) => {
+    if (cap.brewery === "") return;
+    breweryNames.push(cap.brewery);
   });
   return breweryNames;
 });
 
-export default reactive<CapState>(capState);
-export { breweries };
+export { capState, breweries, capsCollected };

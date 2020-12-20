@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <header class="mt-4">
-      <div class="flex justify-between items-center px-8">
+      <div class="container mx-auto flex justify-between items-center px-8">
         <div>
           <div class="font-black text-lg uppercase tracking-wider">
             {{ appTitle }}
@@ -10,17 +10,22 @@
       </div>
     </header>
     <main class="">
-      <section class="">
+      <section>
+        <div class="container mx-auto px-8">
+          <ohio-map />
+        </div>
+      </section>
+      <section>
         <div
           class="container mx-auto mb-4 px-8 flex justify-between items-center"
         >
           <div>
-            <p class="text-sm uppercase">
+            <p class="flex items-center text-xl uppercase">
               <span class="text-xl font-bold">{{ capsCollected }}</span>
-              <span class="relative top-0.5 text-md text-gray-600 mt-4"
-                >/{{ capsTotal }}
+              <span class="mx-1">/</span>
+              <span class="mt-2 text-sm text-gray-600">
+                {{ capsTotal }}
               </span>
-              collected
             </p>
           </div>
           <div>
@@ -31,19 +36,13 @@
           </div>
         </div>
       </section>
-
-      <section>
-        <div class="container mx-auto px-8">
-          <ohio-map />
-        </div>
-      </section>
     </main>
     <footer class="p-4"></footer>
   </div>
 </template>
 
 <script lang="ts">
-  import capState, { breweries } from "./cap-state";
+  import { capState, breweries, capsCollected } from "./cap-state";
   import OhioMap from "./components/OhioMap.vue";
 
   import { defineComponent } from "vue";
@@ -51,12 +50,12 @@
   export default defineComponent({
     components: { OhioMap },
     setup() {
-      const appTitle = "Caps";
+      const appTitle = "Cap Tracker";
       return {
         breweryCount: breweries.value.length,
         appTitle,
-        capsCollected: 5,
-        capsTotal: 82,
+        capsCollected: capsCollected.length,
+        capsTotal: Object.keys(capState).length,
       };
     },
   });
