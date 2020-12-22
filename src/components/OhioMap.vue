@@ -14,19 +14,22 @@
           fill="#472C20"
         />
         <ellipse
-          v-for="(cap, id) in capState"
-          :id="id"
-          :key="id"
-          :cx="cap.position.cx"
-          :cy="cap.position.cy"
-          :rx="cap.position.rx"
-          :ry="cap.position.ry"
+          v-for="cap in capPositions"
+          :id="cap.id"
+          :key="cap.id"
+          :cx="cap.cx"
+          :cy="cap.cy"
+          :rx="cap.rx"
+          :ry="cap.ry"
           @click="capElClicked($event)"
-          :class="{
-            'fill-current text-white': true,
-            'text-gray-600': cap.data,
-            'fill-current text-green-200': cap.selected,
-          }"
+          :class="[
+            'fill-current text-white',
+            {
+              'text-gray-600': capState.caps[cap.id],
+              'fill-current text-green-200':
+                capState.selectedCap?.id === cap.id,
+            },
+          ]"
           style="transform-origin: center"
         />
       </g>
@@ -36,6 +39,7 @@
 </template>
 
 <script lang="ts">
+  import capPositions from "./../data/cap-positions.json";
   import { capState } from "./../cap-state";
   import { defineComponent, ref, reactive } from "vue";
 
@@ -45,10 +49,11 @@
       const capElClicked = (event: Event) => {
         const target = event.target as HTMLElement;
         debugInfo.value = target.id;
-        emit("cap-clicked", target.id);
+        emit("cap-clicked", target);
       };
 
       return {
+        capPositions,
         capState,
         capElClicked,
         debugInfo,
