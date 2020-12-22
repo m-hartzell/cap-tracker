@@ -2,9 +2,14 @@
   <div class="">
     <header class="mt-4">
       <div class="container mx-auto flex justify-between items-center px-8">
-        <div>
-          <div class="font-black text-lg uppercase tracking-wider">
-            Cap Tracker
+        <div class="flex items-center">
+          <div class="mr-4">
+            <cap-logo class="w-12 h-auto" />
+          </div>
+          <div>
+            <p class="font-black text-lg uppercase tracking-wider">
+              Cap Tracker
+            </p>
           </div>
         </div>
       </div>
@@ -65,12 +70,13 @@
   import { defineComponent, onMounted, reactive, ref } from "vue";
   import { createPopper, Instance } from "@popperjs/core";
   import { capState, breweries, capsCollected } from "./cap-state";
+  import CapLogo from "./components/CapLogo.vue";
   import OhioMap from "./components/OhioMap.vue";
   import CapDetailTooltip from "./components/CapDetailTooltip.vue";
   import PlusIcon from "./components/PlusIcon.vue";
 
   export default defineComponent({
-    components: { OhioMap, CapDetailTooltip, PlusIcon },
+    components: { CapLogo, OhioMap, CapDetailTooltip, PlusIcon },
     setup() {
       const tooltip = ref<HTMLElement>();
       const selectedCap = ref({});
