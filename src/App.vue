@@ -64,7 +64,10 @@
       </div>
     </div>
   </div>
-  <debug-info v-if="showDebugInfo" :debug-info="debugInfo" />
+  <debug-info
+    v-if="import.meta.env.MODE == 'development'"
+    :debug-info="debugInfo"
+  />
 </template>
 
 <script lang="ts">
@@ -87,9 +90,9 @@
       const tooltip = ref<HTMLElement>();
       const selectedCap = ref({});
       const popperInstance = ref<Instance>();
+      console.log();
       return {
         debugInfo,
-        showDebugInfo: true,
         popperInstance,
         tooltip,
         capState,
