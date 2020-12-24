@@ -70,8 +70,11 @@
 <script lang="ts">
   import { defineComponent, onMounted, reactive, ref } from "vue";
   import { createPopper, Instance } from "@popperjs/core";
+
   import { capState, breweries, capsCollected } from "./cap-state";
   import debugInfo from "./state/debug-info";
+  import capPositions from "./data/cap-positions.json";
+
   import CapLogo from "./components/CapLogo.vue";
   import DebugInfo from "./components/DebugInfo.vue";
   import OhioMap from "./components/OhioMap.vue";
@@ -92,13 +95,12 @@
         capState,
         breweryCount: breweries.value.length,
         capsCollected: capsCollected.length,
-        capsTotal: Object.keys(capState).length,
+        capsTotal: capPositions.length,
         selectedCap,
       };
     },
     methods: {
       toggleCapInfo(target: HTMLElement) {
-        console.log(target.id, this.capState.selectedCapId);
         if (this.capState.selectedCapId == target.id) {
           console.log("Already selected... deselecting");
           this.capState.selectedCapId = null;
