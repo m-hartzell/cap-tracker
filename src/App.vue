@@ -41,6 +41,13 @@
           </div>
         </div>
       </section>
+      <section>
+        <add-new-cap
+          v-if="capState.selectedCapId"
+          :capId="capState.selectedCapId"
+          :capData="capState.caps[capState.selectedCapId]"
+        />
+      </section>
     </main>
     <footer class="p-4"></footer>
     <div ref="tooltip" v-show="capState.selectedCapId">
@@ -64,10 +71,7 @@
       </div>
     </div>
   </div>
-  <debug-info
-    v-if="import.meta.env.MODE == 'development'"
-    :debug-info="debugInfo"
-  />
+  <debug-info v-if="isDevEnv" :debug-info="debugInfo" />
 </template>
 
 <script lang="ts">
@@ -83,15 +87,25 @@
   import OhioMap from "./components/OhioMap.vue";
   import CapDetailTooltip from "./components/CapDetailTooltip.vue";
   import PlusIcon from "./components/PlusIcon.vue";
+  import AddNewCap from "./components/AddNewCap.vue";
 
   export default defineComponent({
-    components: { DebugInfo, CapLogo, OhioMap, CapDetailTooltip, PlusIcon },
+    components: {
+      DebugInfo,
+      CapLogo,
+      OhioMap,
+      CapDetailTooltip,
+      PlusIcon,
+      AddNewCap,
+    },
     setup() {
+      const isDevEnv = import.meta.env.MODE == "development";
       const tooltip = ref<HTMLElement>();
       const selectedCap = ref({});
       const popperInstance = ref<Instance>();
-      console.log();
+
       return {
+        isDevEnv,
         debugInfo,
         popperInstance,
         tooltip,
@@ -108,13 +122,11 @@
           console.log("Already selected... deselecting");
           this.capState.selectedCapId = null;
           this.popperInstance?.destroy();
-          console.log(this.popperInstance?.state);
         } else {
           if (this.tooltip) {
-            console.log(this.tooltip);
+            this.capState.selectedCapId = target.id;
             this.popperInstance = createPopper(target, this.tooltip, {
               placement: "bottom",
-
               modifiers: [
                 {
                   name: "offset",
@@ -124,7 +136,6 @@
                 },
               ],
             });
-            this.capState.selectedCapId = target.id;
           }
         }
       },

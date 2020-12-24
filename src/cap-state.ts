@@ -41,4 +41,9 @@ const breweries = computed<string[]>(() => {
   return uniq(breweryNames);
 });
 
-export { capState, breweries, capsCollected };
+function saveCap(cap: Cap) {
+  capState.caps[cap.elementId] = cap;
+  console.log(capState.caps[cap.elementId]);
+}
+
+export { capState, breweries, capsCollected, saveCap };

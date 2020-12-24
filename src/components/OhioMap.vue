@@ -26,10 +26,10 @@
             'fill-current text-white',
             {
               'text-gray-600': capState.caps[cap.id],
-              'fill-current text-green-200':
-                capState.selectedCap?.id === cap.id,
+              shadow: capState.selectedCapId === cap.id,
             },
           ]"
+          border
           style="transform-origin: center"
         />
       </g>

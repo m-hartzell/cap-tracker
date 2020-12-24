@@ -1,0 +1,25 @@
+label {
+  display: block;
+  margin-bottom: theme("spacing.2");
+  font-size: theme("fontSize.xl");
+  color: theme("colors.gray.500");
+  font-weight: thin;
+}
+
+input {
+  width: 100%;
+  padding: theme("spacing.1") theme("spacing.3");
+  border: 1px solid theme("colors.gray.400");
+  border-radius: 4px;
+  box-shadow: theme("boxShadow.DEFAULT");
+}
+
+button {
+  padding: theme("spacing.1") theme("spacing.3");
+  border-radius: 4px;
+  background: theme("colors.gray.200");
+  font-weight: bold;
+  box-shadow: theme("boxShadow.DEFAULT");
+}
+button[type="submit"] {
+}
