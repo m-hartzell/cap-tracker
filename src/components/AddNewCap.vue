@@ -3,18 +3,22 @@
     <fieldset>
       <div>
         <label for="BreweryNameInput">Brewery Name</label>
-        <input id="BreweryNameInput" type="text" v-model="breweryName" />
+        <input
+          id="BreweryNameInput"
+          type="text"
+          v-model="capData.breweryName"
+        />
       </div>
       <div>
         <label for="BeerNameInput">Beer Name</label>
-        <input id="BeerNameInput" type="text" v-model="beerName" />
+        <input id="BeerNameInput" type="text" v-model="capData.beerName" />
       </div>
     </fieldset>
     <fieldset>
       <button type="submit" @click="saveForm" class="bg-amber-500">Save</button>
     </fieldset>
   </form>
-  <div>{{ capData }}</div>
+  <!-- <div>{{ capData }}</div> -->
 </template>
 
 <script lang="ts">
@@ -30,28 +34,23 @@
       },
       capData: {
         type: Object,
+        default: () => ({ breweryName: "", beerName: "" }),
       },
     },
-    setup(props) {
-      const capId = computed(() => props.capId);
-      const breweryName = computed(() => props.capData?.breweryName ?? "");
-      const beerName = computed(() => props.capData?.beerName ?? "");
-
-      const saveForm = (event: Event) => {
+    methods: {
+      saveForm(event: Event) {
         event.preventDefault();
-        console.log("Saving ", capId.value, {
-          breweryName: breweryName.value,
-          beerName: beerName.value,
+        console.log("Saving ", this.capId, {
+          breweryName: this.capData?.breweryName,
+          beerName: this.capData?.beerName,
         });
-        const cap = new Cap(capId.value, breweryName.value, beerName.value);
+        const cap = new Cap(
+          this.capId,
+          this.capData?.breweryName,
+          this.capData?.beerName
+        );
         saveCap(cap);
-      };
-
-      return {
-        breweryName,
-        beerName,
-        saveForm,
-      };
+      },
     },
   });
 </script>

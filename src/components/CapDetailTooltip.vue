@@ -29,9 +29,6 @@
         required: true,
       },
     },
-    mounted() {
-      console.log(this.capData);
-    },
   });
 </script>
 

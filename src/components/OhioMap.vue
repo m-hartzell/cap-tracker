@@ -23,14 +23,14 @@
           :ry="cap.ry"
           @click="capClicked($event)"
           :class="[
-            'fill-current text-white',
+            'fill-current text-white z-10',
             {
               'text-gray-600': capState.caps[cap.id],
-              shadow: capState.selectedCapId === cap.id,
+              shadow: isSelected(cap.id),
             },
           ]"
-          border
-          style="transform-origin: center"
+          :stroke="isSelected(cap.id) ? 'black' : ''"
+          :stroke-width="isSelected(cap.id) ? 2 : 0"
         />
       </g>
     </svg>
@@ -59,6 +59,11 @@
         capState,
         capClicked,
       };
+    },
+    methods: {
+      isSelected(capId: string) {
+        return capState.selectedCapId === capId;
+      },
     },
   });
 </script>

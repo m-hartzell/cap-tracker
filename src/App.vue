@@ -119,7 +119,6 @@
     methods: {
       toggleCapInfo(target: HTMLElement) {
         if (this.capState.selectedCapId == target.id) {
-          console.log("Already selected... deselecting");
           this.capState.selectedCapId = null;
           this.popperInstance?.destroy();
         } else {
@@ -127,14 +126,6 @@
             this.capState.selectedCapId = target.id;
             this.popperInstance = createPopper(target, this.tooltip, {
               placement: "bottom",
-              modifiers: [
-                {
-                  name: "offset",
-                  options: {
-                    offset: [0, 5],
-                  },
-                },
-              ],
             });
           }
         }

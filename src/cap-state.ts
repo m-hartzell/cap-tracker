@@ -43,7 +43,6 @@ const breweries = computed<string[]>(() => {
 
 function saveCap(cap: Cap) {
   capState.caps[cap.elementId] = cap;
-  console.log(capState.caps[cap.elementId]);
 }
 
 export { capState, breweries, capsCollected, saveCap };
