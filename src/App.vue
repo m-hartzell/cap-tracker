@@ -64,24 +64,29 @@
       </div>
     </div>
   </div>
+  <debug-info v-if="showDebugInfo" :debug-info="debugInfo" />
 </template>
 
 <script lang="ts">
   import { defineComponent, onMounted, reactive, ref } from "vue";
   import { createPopper, Instance } from "@popperjs/core";
   import { capState, breweries, capsCollected } from "./cap-state";
+  import debugInfo from "./state/debug-info";
   import CapLogo from "./components/CapLogo.vue";
+  import DebugInfo from "./components/DebugInfo.vue";
   import OhioMap from "./components/OhioMap.vue";
   import CapDetailTooltip from "./components/CapDetailTooltip.vue";
   import PlusIcon from "./components/PlusIcon.vue";
 
   export default defineComponent({
-    components: { CapLogo, OhioMap, CapDetailTooltip, PlusIcon },
+    components: { DebugInfo, CapLogo, OhioMap, CapDetailTooltip, PlusIcon },
     setup() {
       const tooltip = ref<HTMLElement>();
       const selectedCap = ref({});
       const popperInstance = ref<Instance>();
       return {
+        debugInfo,
+        showDebugInfo: true,
         popperInstance,
         tooltip,
         capState,
