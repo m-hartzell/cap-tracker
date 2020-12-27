@@ -1,6 +1,13 @@
 <template>
-  <div>
-    <div class="flex items-center">
+  <div class="relative">
+    <button
+      type="button"
+      class="absolute top-0 right-0 -mr-2 -mt-4 py-0 px-1 bg-transparent text-gray-500 shadow-none"
+      @click="closeBtnClicked"
+    >
+      x
+    </button>
+    <div class="flex items-center" @click="tooltipClicked">
       <div class="w-1/3 flex justify-center pr-2">
         <img
           v-if="capData.imageUrl"
@@ -21,12 +28,23 @@
 
 <script lang="ts">
   import { defineComponent } from "vue";
+  import { capState } from "./../cap-state";
 
   export default defineComponent({
     props: {
       capData: {
         type: Object,
         required: true,
+      },
+    },
+    setup() {
+      return {
+        capState,
+      };
+    },
+    methods: {
+      closeBtnClicked() {
+        this.capState.selectedCapId = null;
       },
     },
   });

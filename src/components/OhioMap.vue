@@ -29,7 +29,7 @@
               shadow: isSelected(cap.id),
             },
           ]"
-          :stroke="isSelected(cap.id) ? 'black' : ''"
+          stroke="white"
           :stroke-width="isSelected(cap.id) ? 2 : 0"
         />
       </g>
