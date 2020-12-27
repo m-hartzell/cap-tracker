@@ -18,24 +18,29 @@
       <button type="submit" @click="saveForm" class="bg-amber-500">Save</button>
     </fieldset>
   </form>
-  <!-- <div>{{ capData }}</div> -->
 </template>
 
 <script lang="ts">
   import { computed, defineComponent, ref } from "vue";
+  import { useRoute } from "vue-router";
   import { saveCap } from "./../cap-state";
   import Cap from "./../models/cap";
 
   export default defineComponent({
     props: {
-      capId: {
-        type: String,
-        required: true,
-      },
       capData: {
         type: Object,
         default: () => ({ breweryName: "", beerName: "" }),
       },
+    },
+    setup() {
+      const route = useRoute();
+      console.log(route);
+      let capId = route.params.capId ?? "";
+
+      return {
+        capId,
+      };
     },
     methods: {
       saveForm(event: Event) {

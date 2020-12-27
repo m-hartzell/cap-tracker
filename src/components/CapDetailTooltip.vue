@@ -7,7 +7,7 @@
     >
       x
     </button>
-    <div class="flex items-center" @click="tooltipClicked">
+    <div class="flex items-center cursor-pointer" @click="tooltipClicked">
       <div class="w-1/3 flex justify-center pr-2">
         <img
           v-if="capData.imageUrl"
@@ -45,6 +45,9 @@
     methods: {
       closeBtnClicked() {
         this.capState.selectedCapId = null;
+      },
+      tooltipClicked() {
+        this.$router.push(`/${capState.selectedCapId}/detail`);
       },
     },
   });

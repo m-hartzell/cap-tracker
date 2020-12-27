@@ -1,6 +1,7 @@
 <template>
   <div>
     <ohio-map @cap-clicked="capClicked" />
+    <router-view></router-view>
 
     <div ref="tooltip" v-show="capState.selectedCapId">
       <div
@@ -16,7 +17,10 @@
         <div
           class="flex justify-center items-center w-full h-full bg-green-600 rounded shadow"
         >
-          <p class="text-5xl font-bold text-white">
+          <p
+            class="text-5xl font-bold text-white"
+            @click="openAddForm(capState.selectedCapId)"
+          >
             <plus-icon class="w-full h-full"></plus-icon>
           </p>
         </div>
@@ -66,6 +70,11 @@
       },
       capClicked(target: HTMLElement) {
         this.toggleCapInfo(target);
+      },
+      openAddForm(capId: string) {
+        this.$router.push(`/${capState.selectedCapId}/add`);
+        let capEl = document.getElementById(capId);
+        if (capEl) this.capClicked(capEl);
       },
     },
   });

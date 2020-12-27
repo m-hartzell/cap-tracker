@@ -3,7 +3,10 @@
     <header class="mt-4">
       <div class="container mx-auto">
         <div class="flex items-center">
-          <div class="w-full flex items-center">
+          <div
+            class="w-full flex items-center cursor-pointer"
+            @click="$router.push('/')"
+          >
             <div class="mr-4">
               <cap-logo class="w-12 h-auto" />
             </div>
@@ -33,18 +36,11 @@
         </div>
       </div>
     </header>
-    <main class="">
+    <main>
       <section>
         <div class="container mx-auto px-8">
           <router-view></router-view>
         </div>
-      </section>
-      <section>
-        <add-new-cap
-          v-if="capState.selectedCapId"
-          :capId="capState.selectedCapId"
-          :capData="capState.caps[capState.selectedCapId]"
-        />
       </section>
     </main>
     <footer class="p-4"></footer>
@@ -61,13 +57,10 @@
 
   import CapLogo from "./components/CapLogo.vue";
   import DebugInfo from "./components/DebugInfo.vue";
-  import AddNewCap from "./components/AddNewCap.vue";
-
   export default defineComponent({
     components: {
       DebugInfo,
       CapLogo,
-      AddNewCap,
     },
     setup() {
       const isDevEnv = import.meta.env.MODE == "development";
