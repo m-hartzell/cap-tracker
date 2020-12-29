@@ -1,7 +1,11 @@
 <template>
   <div class="flex">
     <div class="w-1/3">
-      <cap-image class="w-20" :image-url="cap.imageUrl" />
+      <cld-image
+        class="rounded-full w-32"
+        :transformations="'c_thumb,g_face,h_250,w_250'"
+        :publicId="cap.publicId"
+      />
     </div>
     <div class="w-2/3">
       <div class="leading-none">{{ cap.breweryName }}</div>
@@ -21,9 +25,10 @@
   import { format } from "date-fns";
   import { capState } from "../cap-state";
   import CapImage from "../components/CapImage.vue";
+  import CldImage from "../components/CldImage.vue";
 
   export default defineComponent({
-    components: { CapImage },
+    components: { CapImage, CldImage },
     setup() {
       const route = useRoute();
       let capId = ref(route.params.capId);

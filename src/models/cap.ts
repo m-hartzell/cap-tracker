@@ -5,14 +5,14 @@ export default class Cap {
   elementId: string;
   breweryName: string;
   beerName: string;
-  imageUrl: string;
+  publicId: string;
   dateAdded: Date;
 
   constructor(
     elementId: string,
     breweryName: string = "",
     beerName: string = "",
-    imageUrl: string = "",
+    publicId: string = "",
     dateAdded: Date = new Date(2020, 11, 19),
     capGuid: string = uuidv4()
   ) {
@@ -20,7 +20,7 @@ export default class Cap {
     this.elementId = elementId;
     this.breweryName = breweryName;
     this.beerName = beerName;
-    this.imageUrl = imageUrl;
+    this.publicId = publicId;
     this.dateAdded = dateAdded;
   }
 }
