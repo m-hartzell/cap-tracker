@@ -1,7 +1,9 @@
 <template>
   <div>
     <ohio-map @cap-clicked="capClicked" />
-    <router-view></router-view>
+    <panel>
+      <router-view></router-view>
+    </panel>
 
     <div ref="tooltip" v-show="capState.selectedCapId">
       <div
@@ -34,12 +36,14 @@
   import { createPopper, Instance } from "@popperjs/core";
   import { capState } from "./../cap-state";
 
+  import Panel from "./../components/Panel.vue";
   import OhioMap from "./../components/OhioMap.vue";
   import CapDetailTooltip from "./../components/CapDetailTooltip.vue";
   import PlusIcon from "./../components/PlusIcon.vue";
 
   export default defineComponent({
     components: {
+      Panel,
       OhioMap,
       CapDetailTooltip,
       PlusIcon,

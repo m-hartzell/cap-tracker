@@ -1,10 +1,10 @@
 <template>
   <div class="max-w-2xl mx-auto">
     <header class="mt-4">
-      <div class="container mx-auto">
-        <div class="flex items-center">
+      <div class="container mx-auto px-8">
+        <div class="flex flex-wrap items-center">
           <div
-            class="w-full flex items-center cursor-pointer"
+            class="flex items-center cursor-pointer"
             @click="$router.push('/')"
           >
             <div class="mr-4">
@@ -16,7 +16,7 @@
               </p>
             </div>
           </div>
-          <div class="w-1/2 ml-auto">
+          <div class="ml-auto">
             <div class="flex justify-between items-center">
               <div>
                 <p class="flex items-center mr-4 text-xl uppercase">
@@ -45,7 +45,7 @@
     </main>
     <footer class="p-4"></footer>
   </div>
-  <debug-info v-if="isDevEnv" :debug-info="debugInfo" />
+  <!-- <debug-info v-if="isDevEnv" :debug-info="debugInfo" /> -->
 </template>
 
 <script lang="ts">

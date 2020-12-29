@@ -4,16 +4,21 @@
       <cap-image class="w-20" :image-url="cap.imageUrl" />
     </div>
     <div class="w-2/3">
-      <div class="text-2xl">{{ cap.breweryName }}</div>
-      <div class="">{{ cap.beerName }}</div>
-      <div class="mt-4">Collected: {{ cap.dateAdded }}</div>
+      <div class="leading-none">{{ cap.breweryName }}</div>
+      <div class="text-xl font-bold">{{ cap.beerName }}</div>
+      <div
+        class="inline-block px-2 text-gray-500 text-sm border border-gray-500 rounded-full"
+      >
+        {{ date }}
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, watch } from "vue";
+  import { computed, defineComponent, ref, watch } from "vue";
   import { useRoute } from "vue-router";
+  import { format } from "date-fns";
   import { capState } from "../cap-state";
   import CapImage from "../components/CapImage.vue";
 
@@ -23,6 +28,7 @@
       const route = useRoute();
       let capId = ref(route.params.capId);
       let cap = ref(capState.caps[route.params.capId as string]);
+      let date = computed(() => format(cap.value.dateAdded, "MMM dd, yyyy"));
 
       watch(
         () => route.params,
@@ -35,6 +41,7 @@
       return {
         capId,
         cap,
+        date,
       };
     },
   });
