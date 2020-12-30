@@ -31,20 +31,18 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onMounted, ref } from "vue";
+  import { defineComponent, onBeforeMount, onMounted, ref } from "vue";
   import { createPopper, Instance } from "@popperjs/core";
   import { capState } from "./../state/cap-state";
 
   import Panel from "./../components/Panel.vue";
   import OhioMap from "./../components/OhioMap.vue";
-  // import CapDetailTooltip from "./../components/CapDetailTooltip.vue";
   import PlusIcon from "./../components/PlusIcon.vue";
 
   export default defineComponent({
     components: {
       Panel,
       OhioMap,
-      // CapDetailTooltip,
       PlusIcon,
     },
     setup() {
