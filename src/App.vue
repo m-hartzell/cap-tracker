@@ -22,13 +22,15 @@
                 <p class="flex items-center mr-4 text-xl uppercase">
                   <span class="text-xl font-bold">{{ capsCollected }}</span>
                   <span class="mx-1">/</span>
-                  <span class="mt-2 text-sm"> {{ capsTotal }} caps </span>
+                  <span class="mt-2 text-sm">
+                    {{ capsTotal }} <span>caps</span>
+                  </span>
                 </p>
               </div>
               <div>
-                <p class="text-sm uppercase">
+                <p class="hidden text-sm uppercase sm:block">
                   <span class="text-xl font-bold">{{ breweryCount }}</span>
-                  breweries
+                  <span class="pl-1">breweries</span>
                 </p>
               </div>
             </div>

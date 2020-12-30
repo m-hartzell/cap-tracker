@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed bottom-0 inset-x-4 max-w-2xl mx-auto p-4 rounded-t-xl shadow-xl border"
+    class="fixed bottom-0 inset-x-4 max-w-2xl mx-auto p-4 bg-white border rounded-t-xl shadow-md"
   >
     <slot></slot>
   </div>

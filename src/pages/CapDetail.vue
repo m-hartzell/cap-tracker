@@ -1,8 +1,8 @@
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center space-x-8">
     <div class="w-1/3">
       <cld-image
-        class="rounded-full w-32"
+        class="rounded-full w-24 shadow"
         :transformations="'c_thumb,g_face,h_250,w_250'"
         :publicId="cap.publicId"
       ></cld-image>
