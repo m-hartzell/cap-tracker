@@ -1,126 +1,78 @@
 <template>
-  <div class="">
+  <div class="max-w-2xl mx-auto">
     <header class="mt-4">
-      <div class="container mx-auto flex justify-between items-center px-8">
-        <div class="flex items-center">
-          <div class="mr-4">
-            <cap-logo class="w-12 h-auto" />
+      <div class="container mx-auto px-8">
+        <div class="flex flex-wrap items-center">
+          <div
+            class="flex items-center cursor-pointer"
+            @click="$router.push('/')"
+          >
+            <div class="mr-4">
+              <cap-logo class="w-12 h-auto" />
+            </div>
+            <div>
+              <p class="font-black text-lg uppercase tracking-wider">
+                Cap Tracker
+              </p>
+            </div>
           </div>
-          <div>
-            <p class="font-black text-lg uppercase tracking-wider">
-              Cap Tracker
-            </p>
+          <div class="ml-auto">
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="flex items-center mr-4 text-xl uppercase">
+                  <span class="text-xl font-bold">{{ capsCollected }}</span>
+                  <span class="mx-1">/</span>
+                  <span class="mt-2 text-sm"> {{ capsTotal }} caps </span>
+                </p>
+              </div>
+              <div>
+                <p class="text-sm uppercase">
+                  <span class="text-xl font-bold">{{ breweryCount }}</span>
+                  breweries
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </header>
-    <main class="">
+    <main>
       <section>
         <div class="container mx-auto px-8">
-          <ohio-map @cap-clicked="capClicked" />
-        </div>
-      </section>
-      <section>
-        <div
-          class="container mx-auto mb-4 px-8 flex justify-between items-center"
-        >
-          <div>
-            <p class="flex items-center text-xl uppercase">
-              <span class="text-xl font-bold">{{ capsCollected }}</span>
-              <span class="mx-1">/</span>
-              <span class="mt-2 text-sm text-gray-600">
-                {{ capsTotal }}
-              </span>
-            </p>
-          </div>
-          <div>
-            <p class="text-sm uppercase">
-              <span class="text-xl font-bold">{{ breweryCount }}</span>
-              breweries
-            </p>
-          </div>
+          <router-view></router-view>
         </div>
       </section>
     </main>
     <footer class="p-4"></footer>
-    <div ref="tooltip" v-show="capState.selectedCapId">
-      <div
-        class="w-64 p-4 bg-white rounded-lg shadow"
-        v-if="capState.caps[capState.selectedCapId]"
-      >
-        <cap-detail-tooltip :cap-data="capState.caps[capState.selectedCapId]" />
-      </div>
-      <div
-        v-else
-        class="flex justify-center items-center w-16 h-16 p-2 bg-white rounded-lg shadow-lg"
-      >
-        <div
-          class="flex justify-center items-center w-full h-full bg-green-600 rounded shadow"
-        >
-          <p class="text-5xl font-bold text-white">
-            <plus-icon class="w-full h-full"></plus-icon>
-          </p>
-        </div>
-      </div>
-    </div>
   </div>
+  <!-- <debug-info v-if="isDevEnv" :debug-info="debugInfo" /> -->
 </template>
 
 <script lang="ts">
   import { defineComponent, onMounted, reactive, ref } from "vue";
-  import { createPopper, Instance } from "@popperjs/core";
-  import { capState, breweries, capsCollected } from "./cap-state";
-  import CapLogo from "./components/CapLogo.vue";
-  import OhioMap from "./components/OhioMap.vue";
-  import CapDetailTooltip from "./components/CapDetailTooltip.vue";
-  import PlusIcon from "./components/PlusIcon.vue";
 
+  import { capState, breweries, capsCollected } from "./cap-state";
+  import debugInfo from "./state/debug-info";
+  import capPositions from "./data/cap-positions.json";
+
+  import CapLogo from "./components/CapLogo.vue";
+  import DebugInfo from "./components/DebugInfo.vue";
   export default defineComponent({
-    components: { CapLogo, OhioMap, CapDetailTooltip, PlusIcon },
+    components: {
+      DebugInfo,
+      CapLogo,
+    },
     setup() {
-      const tooltip = ref<HTMLElement>();
-      const selectedCap = ref({});
-      const popperInstance = ref<Instance>();
+      const isDevEnv = import.meta.env.MODE == "development";
+
       return {
-        popperInstance,
-        tooltip,
+        isDevEnv,
+        debugInfo,
         capState,
         breweryCount: breweries.value.length,
         capsCollected: capsCollected.length,
-        capsTotal: Object.keys(capState).length,
-        selectedCap,
+        capsTotal: capPositions.length,
       };
-    },
-    methods: {
-      toggleCapInfo(target: HTMLElement) {
-        console.log(target.id, this.capState.selectedCapId);
-        if (this.capState.selectedCapId == target.id) {
-          console.log("Already selected... deselecting");
-          this.capState.selectedCapId = null;
-          this.popperInstance?.destroy();
-          console.log(this.popperInstance?.state);
-        } else {
-          if (this.tooltip) {
-            console.log(this.tooltip);
-            this.popperInstance = createPopper(target, this.tooltip, {
-              placement: "bottom",
-
-              modifiers: [
-                {
-                  name: "offset",
-                  options: {
-                    offset: [0, 5],
-                  },
-                },
-              ],
-            });
-            this.capState.selectedCapId = target.id;
-          }
-        }
-      },
-      capClicked(target: HTMLElement) {
-        this.toggleCapInfo(target);
-      },
     },
   });
 </script>

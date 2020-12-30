@@ -21,20 +21,19 @@
           :cy="cap.cy"
           :rx="cap.rx"
           :ry="cap.ry"
-          @click="capElClicked($event)"
+          @click="capClicked($event)"
           :class="[
-            'fill-current text-white',
+            'fill-current text-white z-10',
             {
               'text-gray-600': capState.caps[cap.id],
-              'fill-current text-green-200':
-                capState.selectedCap?.id === cap.id,
+              shadow: isSelected(cap.id),
             },
           ]"
-          style="transform-origin: center"
+          stroke="white"
+          :stroke-width="isSelected(cap.id) ? 2 : 0"
         />
       </g>
     </svg>
-    <pre>Debug Info: {{ debugInfo }}</pre>
   </div>
 </template>
 
@@ -42,22 +41,29 @@
   import capPositions from "./../data/cap-positions.json";
   import { capState } from "./../cap-state";
   import { defineComponent, ref, reactive } from "vue";
+  import { addToDebugInfo } from "./../state/debug-info";
 
   export default defineComponent({
     setup(_props, { emit }) {
-      let debugInfo = ref("");
-      const capElClicked = (event: Event) => {
+      const capClicked = (event: Event) => {
         const target = event.target as HTMLElement;
-        debugInfo.value = target.id;
+        addToDebugInfo("capClicked", {
+          id: target.id,
+          capData: capState.caps[target.id],
+        });
         emit("cap-clicked", target);
       };
 
       return {
         capPositions,
         capState,
-        capElClicked,
-        debugInfo,
+        capClicked,
       };
+    },
+    methods: {
+      isSelected(capId: string) {
+        return capState.selectedCapId === capId;
+      },
     },
   });
 </script>
