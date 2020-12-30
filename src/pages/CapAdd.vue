@@ -23,7 +23,7 @@
 <script lang="ts">
   import { computed, defineComponent, ref } from "vue";
   import { useRoute } from "vue-router";
-  import { saveCap } from "./../cap-state";
+  import { saveCap } from "./../state/cap-state";
   import Cap from "./../models/cap";
 
   export default defineComponent({

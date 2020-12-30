@@ -39,18 +39,13 @@
 
 <script lang="ts">
   import capPositions from "./../data/cap-positions.json";
-  import { capState } from "./../cap-state";
+  import { capState } from "./../state/cap-state";
   import { defineComponent, ref, reactive } from "vue";
-  import { addToDebugInfo } from "./../state/debug-info";
 
   export default defineComponent({
     setup(_props, { emit }) {
       const capClicked = (event: Event) => {
         const target = event.target as HTMLElement;
-        addToDebugInfo("capClicked", {
-          id: target.id,
-          capData: capState.caps[target.id],
-        });
         emit("cap-clicked", target);
       };
 

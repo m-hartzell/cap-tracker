@@ -9,7 +9,7 @@
     props: {
       cloudName: {
         type: String,
-        default: import.meta.env.VITE_CLOUD_NAME,
+        default: "hartzelldev",
       },
       folder: {
         type: String,

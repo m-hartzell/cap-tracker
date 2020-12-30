@@ -30,7 +30,7 @@
 
 <script lang="ts">
   import { defineComponent } from "vue";
-  import { capState } from "./../cap-state";
+  import { capState } from "./../state/cap-state";
 
   import CldImage from "./CldImage.vue";
 

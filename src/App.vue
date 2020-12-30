@@ -8,7 +8,7 @@
             @click="$router.push('/')"
           >
             <div class="mr-4">
-              <cap-logo class="w-12 h-auto" />
+              <cap-logo class="w-12 h-auto"></cap-logo>
             </div>
             <div>
               <p class="font-black text-lg uppercase tracking-wider">
@@ -45,29 +45,21 @@
     </main>
     <footer class="p-4"></footer>
   </div>
-  <!-- <debug-info v-if="isDevEnv" :debug-info="debugInfo" /> -->
 </template>
 
 <script lang="ts">
   import { defineComponent, onMounted, reactive, ref } from "vue";
 
-  import { capState, breweries, capsCollected } from "./cap-state";
-  import debugInfo from "./state/debug-info";
+  import { capState, breweries, capsCollected } from "./state/cap-state";
   import capPositions from "./data/cap-positions.json";
 
   import CapLogo from "./components/CapLogo.vue";
-  import DebugInfo from "./components/DebugInfo.vue";
   export default defineComponent({
     components: {
-      DebugInfo,
       CapLogo,
     },
     setup() {
-      const isDevEnv = import.meta.env.MODE == "development";
-
       return {
-        isDevEnv,
-        debugInfo,
         capState,
         breweryCount: breweries.value.length,
         capsCollected: capsCollected.length,
