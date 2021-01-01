@@ -36,6 +36,7 @@
     components: { OhioMapMarker },
     setup(_props, { emit }) {
       const capClicked = (event: Event) => {
+        console.info("Cap clicked", event.target);
         const target = event.target as HTMLElement;
         emit("cap-clicked", target);
       };

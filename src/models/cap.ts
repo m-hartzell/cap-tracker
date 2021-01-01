@@ -23,4 +23,8 @@ export default class Cap {
     this.publicId = publicId;
     this.dateAdded = dateAdded;
   }
+
+  get imageUrl() {
+    return `//res.cloudinary.com/hartzelldev/image/upload/c_thumb,g_face,h_50,w_50,r_max/cap-tracker/${this.publicId}.png`;
+  }
 }
