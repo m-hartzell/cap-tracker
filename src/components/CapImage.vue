@@ -1,16 +1,16 @@
 <template>
   <div>
     <img v-if="imageUrl" :src="imageUrl" alt="" />
-    <cap-logo grayscale v-else class="w-full h-auto" />
+    <cap-logo-mark grayscale v-else class="w-full h-auto" />
   </div>
 </template>
 
 <script lang="ts">
   import { defineComponent } from "vue";
-  import CapLogo from "./CapLogo.vue";
+  import CapLogoMark from "./CapLogoMark.vue";
 
   export default defineComponent({
-    components: { CapLogo },
+    components: { CapLogoMark },
     props: {
       imageUrl: {
         type: String,

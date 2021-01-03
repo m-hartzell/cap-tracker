@@ -1,43 +1,6 @@
 <template>
   <div class="max-w-2xl mx-auto">
-    <header class="mt-4">
-      <div class="container mx-auto px-8">
-        <div class="flex flex-wrap items-center">
-          <div
-            class="flex items-center cursor-pointer"
-            @click="$router.push('/')"
-          >
-            <div class="mr-4">
-              <cap-logo class="w-12 h-auto"></cap-logo>
-            </div>
-            <div>
-              <p class="font-black text-lg uppercase tracking-wider">
-                Cap Tracker
-              </p>
-            </div>
-          </div>
-          <div class="ml-auto">
-            <div class="flex justify-between items-center">
-              <div>
-                <p class="flex items-center mr-4 text-xl uppercase">
-                  <span class="text-xl font-bold">{{ capsCollected }}</span>
-                  <span class="mx-1">/</span>
-                  <span class="mt-2 text-sm">
-                    {{ capsTotal }} <span>caps</span>
-                  </span>
-                </p>
-              </div>
-              <div>
-                <p class="hidden text-sm uppercase sm:block">
-                  <span class="text-xl font-bold">{{ breweryCount }}</span>
-                  <span class="pl-1">breweries</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+    <app-header class="mt-4" />
     <main>
       <section>
         <div class="container mx-auto px-8">
@@ -52,20 +15,19 @@
 <script lang="ts">
   import { defineComponent, onMounted, reactive, ref } from "vue";
 
-  import { capState, breweries, capsCollected } from "./state/cap-state";
+  import { capState } from "./state/cap-state";
   import capPositions from "./data/cap-positions.json";
 
   import CapLogo from "./components/CapLogo.vue";
+  import AppHeader from "./components/AppHeader.vue";
+
   export default defineComponent({
     components: {
-      CapLogo,
+      AppHeader,
     },
     setup() {
       return {
         capState,
-        breweryCount: breweries.value.length,
-        capsCollected: capsCollected.length,
-        capsTotal: capPositions.length,
       };
     },
   });

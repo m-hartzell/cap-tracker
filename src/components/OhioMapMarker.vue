@@ -22,27 +22,28 @@
       v-else
       :id="position.id"
       :href="cap.imageUrl"
-      height="20"
-      width="20"
-      :x="position.cx - 12.5"
-      :y="position.cy - 12.5"
+      :height="height"
+      :width="width"
+      :x="position.cx - width / 2"
+      :y="position.cy - height / 2"
     />
   </g>
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+  import { computed, defineComponent, ref } from "vue";
 
   export default defineComponent({
     props: ["position", "cap", "isSelected"],
-    setup() {
+    setup(props) {
       const el = ref(null);
+      const width = computed(() => (props.isSelected ? 25 : 20));
+      const height = computed(() => (props.isSelected ? 25 : 20));
       return {
         el,
+        width,
+        height,
       };
-    },
-    mounted() {
-      // console.log(this.el);
     },
   });
 </script>
