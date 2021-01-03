@@ -5,13 +5,7 @@
       <router-view></router-view>
     </panel>
 
-    <div
-      ref="tooltip"
-      v-show="
-        capState.selectedCapId &&
-        capState.caps[capState.selectedCapId] === undefined
-      "
-    >
+    <div ref="tooltip" v-show="showTooltip">
       <div
         class="flex justify-center items-center w-16 h-16 p-2 bg-white rounded-lg shadow-lg"
       >
@@ -48,11 +42,13 @@
     setup() {
       const tooltip = ref<HTMLElement>();
       const popperInstance = ref<Instance>();
+      const showTooltip = ref<boolean>(false);
 
       return {
         capState,
         popperInstance,
         tooltip,
+        showTooltip,
       };
     },
     methods: {
@@ -73,10 +69,12 @@
           this.popperInstance = createPopper(target, this.tooltip, {
             placement: "bottom",
           });
+          this.showTooltip = true;
         }
       },
       openAddForm(capId: string) {
         this.$router.push(`/${this.capState.selectedCapId}/add`);
+        this.showTooltip = false;
         this.popperInstance?.destroy();
       },
     },

@@ -36,7 +36,7 @@
     components: { OhioMapMarker },
     setup(_props, { emit }) {
       const capClicked = (event: Event) => {
-        console.info("Cap clicked", event.target);
+        // console.info("Cap clicked", event.target);
         const target = event.target as HTMLElement;
         emit("cap-clicked", target);
       };
@@ -62,6 +62,6 @@
     @apply max-w-screen-sm;
   }
   path {
-    fill: theme("colors.gray.300");
+    fill: theme("colors.gray.200");
   }
 </style>

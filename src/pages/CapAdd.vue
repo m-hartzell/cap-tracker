@@ -21,6 +21,7 @@
           id="BeerCapUpload"
           type="button"
           class="mx-auto w-24 h-24 bg-gray-200 flex items-center justify-center text-gray-500 text-5xl font-bold rounded-full shadow-none border border-gray-400"
+          @click="onUploadClick"
         >
           <span class="relative -top-1">+</span>
         </button>
@@ -30,6 +31,7 @@
         >
           Cap Upload
         </label>
+        <input type="file" :ref="fileInput" id="BeerCapUploadInput" class="" />
       </div>
     </fieldset>
     <fieldset>
@@ -39,7 +41,7 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, ref } from "vue";
+  import { computed, defineComponent, onMounted, ref, watch } from "vue";
   import { useRoute } from "vue-router";
   import { saveCap } from "./../state/cap-state";
   import Cap from "./../models/cap";
@@ -53,11 +55,22 @@
     },
     setup() {
       const route = useRoute();
-      console.log(route);
-      let capId = route.params.capId ?? "";
+      let capId = ref(route.params.capId ?? "");
+      let fileInput = ref<HTMLInputElement>();
+
+      watch(
+        () => route.params.capId,
+        (n, o) => (capId.value = n)
+      );
+
+      const onUploadClick = () => {
+        console.log(fileInput);
+      };
 
       return {
         capId,
+        fileInput,
+        onUploadClick,
       };
     },
     methods: {
