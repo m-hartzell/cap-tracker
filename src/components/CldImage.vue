@@ -19,6 +19,10 @@
         type: String,
         required: true,
       },
+      ext: {
+        type: String,
+        default: "",
+      },
       transformations: {
         type: String,
         default: "",
@@ -27,7 +31,7 @@
 
     setup(props) {
       const computedUrl = computed(() => {
-        return `https://res.cloudinary.com/${props.cloudName}/image/upload/${props.transformations}/${props.folder}/${props.publicId}`;
+        return `https://res.cloudinary.com/${props.cloudName}/image/upload/${props.transformations}/${props.folder}/${props.publicId}${props.ext}`;
       });
 
       return {

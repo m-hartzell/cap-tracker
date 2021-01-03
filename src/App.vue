@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-2xl mx-auto">
-    <app-header class="mt-4" />
+    <app-header class="my-4" />
     <main>
       <section>
         <div class="container mx-auto px-8">

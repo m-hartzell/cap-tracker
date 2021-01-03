@@ -21,7 +21,7 @@
     <image
       v-else
       :id="position.id"
-      :href="cap.imageUrl"
+      :href="cap.getMapThumbImg()"
       :height="height"
       :width="width"
       :x="position.cx - width / 2"

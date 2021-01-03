@@ -13,7 +13,7 @@
           </div>
         </router-link>
         <div class="ml-auto">
-          <div class="flex items-center">
+          <div class="flex items-center space-x-4">
             <router-link to="/">Map</router-link>
             <router-link to="/list">List</router-link>
           </div>

@@ -24,7 +24,12 @@ export default class Cap {
     this.dateAdded = dateAdded;
   }
 
-  get imageUrl() {
-    return `//res.cloudinary.com/hartzelldev/image/upload/c_thumb,g_face,h_50,w_50,r_max/cap-tracker/${this.publicId}.png`;
+  getImageUrl(transformations: string[] = []) {
+    const t = transformations.join(",") + "/";
+    return `//res.cloudinary.com/hartzelldev/image/upload/${t}cap-tracker/${this.publicId}.png`;
+  }
+
+  getMapThumbImg() {
+    return `//res.cloudinary.com/hartzelldev/image/upload/c_thumb,g_face,h_100,w_100,r_max/cap-tracker/${this.publicId}.png`;
   }
 }
