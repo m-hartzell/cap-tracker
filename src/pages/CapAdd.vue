@@ -17,21 +17,23 @@
         </div>
       </div>
       <div class="w-1/3">
-        <button
-          id="BeerCapUpload"
-          type="button"
-          class="mx-auto w-24 h-24 bg-gray-200 flex items-center justify-center text-gray-500 text-5xl font-bold rounded-full shadow-none border border-gray-400"
-          @click="onUploadClick"
-        >
-          <span class="relative -top-1">+</span>
-        </button>
         <label
           for="BeerCapUpload"
           class="mt-2 text-center uppercase text-xs text-gray-400"
         >
+          <div
+            class="mx-auto mb-2 w-24 h-24 bg-gray-200 flex items-center justify-center text-gray-500 text-5xl font-bold rounded-full shadow-none border border-gray-400"
+          >
+            <span class="relative -top-1">+</span>
+          </div>
           Cap Upload
         </label>
-        <input type="file" :ref="fileInput" id="BeerCapUploadInput" class="" />
+        <input
+          type="file"
+          ref="fileInput"
+          id="BeerCapUpload"
+          accept=".jpg,.jpeg,.png"
+        />
       </div>
     </fieldset>
     <fieldset>
@@ -48,47 +50,59 @@
 
   export default defineComponent({
     props: {
+      capId: {
+        type: String,
+        default: "",
+      },
       capData: {
         type: Object,
         default: () => ({ breweryName: "", beerName: "" }),
       },
     },
-    setup() {
-      const route = useRoute();
-      let capId = ref(route.params.capId ?? "");
+    setup(props) {
       let fileInput = ref<HTMLInputElement>();
+      onMounted(() => {
+        console.log(`On mounted Ref: `, fileInput.value);
+        if (fileInput.value) {
+          fileInput.value.onchange = (e) => {
+            const fileInput = e.target as HTMLInputElement;
+            if (fileInput.files) {
+              // Get thumb
+            }
+          };
+        }
+      });
 
-      watch(
-        () => route.params.capId,
-        (n, o) => (capId.value = n)
-      );
-
-      const onUploadClick = () => {
-        console.log(fileInput);
+      const saveForm = (event: Event) => {
+        event.preventDefault();
+        console.log("Saving ", props.capId, {
+          breweryName: props.capData?.breweryName,
+          beerName: props.capData?.beerName,
+        });
+        const cap = new Cap(
+          props.capId,
+          props.capData?.breweryName,
+          props.capData?.beerName
+        );
+        saveCap(cap);
       };
 
       return {
-        capId,
         fileInput,
-        onUploadClick,
+        saveForm,
       };
     },
-    methods: {
-      saveForm(event: Event) {
-        event.preventDefault();
-        console.log("Saving ", this.capId, {
-          breweryName: this.capData?.breweryName,
-          beerName: this.capData?.beerName,
-        });
-        const cap = new Cap(
-          this.capId,
-          this.capData?.breweryName,
-          this.capData?.beerName
-        );
-        saveCap(cap);
-      },
-    },
+    methods: {},
   });
 </script>
 
-<style scoped></style>
+<style scoped>
+  input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+</style>

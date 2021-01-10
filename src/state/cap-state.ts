@@ -20,6 +20,16 @@ function initCapState(): CapState {
   capsCollected.forEach((cap: Cap) => {
     capState.caps[cap.elementId] = cap;
   });
+
+  const API_URL = import.meta.env.VITE_AWS_API_URL;
+
+  console.log(API_URL);
+  fetch(`${API_URL}/getCaps`)
+    .then((r) => r.json())
+    .then((d) => console.log(d));
+
+  console.log(capState);
+
   return capState;
 }
 
@@ -33,6 +43,7 @@ const breweries = computed<string[]>(() => {
 });
 
 function saveCap(cap: Cap) {
+  // TODO
   capState.caps[cap.elementId] = cap;
 }
 

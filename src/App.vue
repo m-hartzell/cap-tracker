@@ -26,6 +26,7 @@
       AppHeader,
     },
     setup() {
+      console.log(Object.values(capState.caps));
       return {
         capState,
       };

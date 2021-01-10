@@ -17,6 +17,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: "/:capId/add",
         component: CapAdd,
+        props: true,
       },
     ],
   },
