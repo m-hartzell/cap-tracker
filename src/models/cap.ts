@@ -30,6 +30,6 @@ export default class Cap {
   }
 
   getMapThumbImg() {
-    return `//res.cloudinary.com/hartzelldev/image/upload/c_thumb,g_face,h_100,w_100,r_max/cap-tracker/${this.publicId}.png`;
+    return `//res.cloudinary.com/hartzelldev/image/upload/h_100,w_100,r_max/cap-tracker/${this.publicId}.png`;
   }
 }
