@@ -1,8 +1,10 @@
+fieldset {
+  margin-bottom: theme("spacing.2");
+}
+
 label {
   display: block;
-  margin-bottom: theme("spacing.2");
-  font-size: theme("fontSize.xl");
-  color: theme("colors.gray.500");
+  color: theme("colors.gray.700");
   font-weight: thin;
 }
 
@@ -14,12 +16,21 @@ input {
   box-shadow: theme("boxShadow.DEFAULT");
 }
 
+.field-group {
+  margin-bottom: theme("spacing.2");
+}
+
 button {
-  padding: theme("spacing.1") theme("spacing.3");
+  padding: theme("spacing.2") theme("spacing.4");
   border-radius: 4px;
   background: theme("colors.gray.200");
   font-weight: bold;
   box-shadow: theme("boxShadow.DEFAULT");
 }
 button[type="submit"] {
+}
+
+h2 {
+  font-size: theme("fontSize.2xl");
+  font-weight: bold;
 }

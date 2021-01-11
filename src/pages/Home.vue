@@ -5,15 +5,8 @@
       <router-view></router-view>
     </panel>
 
-    <div ref="tooltip" v-show="capState.selectedCapId">
+    <div ref="tooltip" v-show="showTooltip">
       <div
-        class="w-64 p-4 bg-white rounded-lg shadow"
-        v-if="capState.caps[capState.selectedCapId]"
-      >
-        <cap-detail-tooltip :cap-data="capState.caps[capState.selectedCapId]" />
-      </div>
-      <div
-        v-else
         class="flex justify-center items-center w-16 h-16 p-2 bg-white rounded-lg shadow-lg"
       >
         <div
@@ -32,53 +25,57 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+  import { defineComponent, onBeforeMount, onMounted, ref } from "vue";
   import { createPopper, Instance } from "@popperjs/core";
-  import { capState } from "./../cap-state";
+  import { capState } from "./../state/cap-state";
 
   import Panel from "./../components/Panel.vue";
   import OhioMap from "./../components/OhioMap.vue";
-  import CapDetailTooltip from "./../components/CapDetailTooltip.vue";
   import PlusIcon from "./../components/PlusIcon.vue";
 
   export default defineComponent({
     components: {
       Panel,
       OhioMap,
-      CapDetailTooltip,
       PlusIcon,
     },
     setup() {
       const tooltip = ref<HTMLElement>();
       const popperInstance = ref<Instance>();
+      const showTooltip = ref<boolean>(false);
 
       return {
         capState,
         popperInstance,
         tooltip,
+        showTooltip,
       };
     },
     methods: {
-      toggleCapInfo(target: HTMLElement) {
+      capClicked(target: HTMLElement) {
         if (this.capState.selectedCapId == target.id) {
           this.capState.selectedCapId = null;
-          this.popperInstance?.destroy();
+          this.$router.push("/");
+        } else if (this.capState.caps[target.id] === undefined) {
+          // this.toggleAddCapTooltip(target);
         } else {
-          if (this.tooltip) {
-            this.capState.selectedCapId = target.id;
-            this.popperInstance = createPopper(target, this.tooltip, {
-              placement: "bottom",
-            });
-          }
+          this.capState.selectedCapId = target.id;
+          this.$router.push(`/${this.capState.selectedCapId}/detail`);
         }
       },
-      capClicked(target: HTMLElement) {
-        this.toggleCapInfo(target);
+      toggleAddCapTooltip(target: HTMLElement) {
+        if (this.tooltip) {
+          this.capState.selectedCapId = target.id;
+          this.popperInstance = createPopper(target, this.tooltip, {
+            placement: "bottom",
+          });
+          this.showTooltip = true;
+        }
       },
       openAddForm(capId: string) {
-        this.$router.push(`/${capState.selectedCapId}/add`);
-        let capEl = document.getElementById(capId);
-        if (capEl) this.capClicked(capEl);
+        this.$router.push(`/${this.capState.selectedCapId}/add`);
+        this.showTooltip = false;
+        this.popperInstance?.destroy();
       },
     },
   });

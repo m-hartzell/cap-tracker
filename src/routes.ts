@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import Home from "./pages/Home.vue";
+import CapList from "./pages/CapList.vue";
 import CapAdd from "./pages/CapAdd.vue";
 import CapDetail from "./pages/CapDetail.vue";
 
@@ -16,8 +17,13 @@ const routes: RouteRecordRaw[] = [
       {
         path: "/:capId/add",
         component: CapAdd,
+        props: true,
       },
     ],
+  },
+  {
+    path: "/list",
+    component: CapList,
   },
 ];
 

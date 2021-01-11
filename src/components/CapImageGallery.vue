@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { computed, defineComponent } from "vue";
-  import { capState } from "./../cap-state";
+  import { capState } from "./../state/cap-state";
 
   import CapImage from "./CapImage.vue";
 
