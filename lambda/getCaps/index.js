@@ -1,32 +1,21 @@
 const AWS = require("aws-sdk");
 
 const client = new AWS.DynamoDB.DocumentClient();
-const tableName = "Caps";
+const params = { TableName: "Caps" };
 AWS.config.update({ region: "us-east-2" });
 
-const params = { TableName: tableName };
-
 exports.handler = async () => {
-  const caps = [];
-
-  const res = client.scan(params, (err, data) => {
-    if (err) {
-      return {
-        statusCode: 500,
-        body: err.message,
-      };
-    } else {
-      caps.push(...Object.values(data.items));
-      console.log(caps);
-      return {
-        statusCode: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(caps),
-      };
-    }
-  });
-
-  return res;
+  try {
+    const data = await client.scan(params).promise();
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify(data.Items),
+    };
+    return response;
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(e),
+    };
+  }
 };

@@ -1,4 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
+import { parseISO } from "date-fns";
+
+interface DynamoCap extends Cap {
+  dateAddedUtc: string;
+}
 
 export default class Cap {
   capGuid: string;
@@ -22,6 +27,21 @@ export default class Cap {
     this.beerName = beerName;
     this.publicId = publicId;
     this.dateAdded = dateAdded;
+  }
+
+  static formatDynamoDBResponse(itemArray: DynamoCap[]) {
+    console.log(itemArray);
+    return itemArray.map(
+      (i) =>
+        new Cap(
+          i.elementId,
+          i.breweryName,
+          i.beerName,
+          i.publicId,
+          parseISO(i.dateAddedUtc),
+          i.capGuid
+        )
+    );
   }
 
   getImageUrl(transformations: string[] = []) {

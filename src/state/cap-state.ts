@@ -1,4 +1,4 @@
-import capsCollected from "../data/caps-collected";
+// import capsCollected from "../data/caps-collected";
 import Cap from "../models/cap";
 import { computed, reactive } from "vue";
 import uniq from "ramda/es/uniq";
@@ -10,36 +10,31 @@ interface CapState {
   selectedCapId: string | null;
 }
 
-const capState = reactive(initCapState());
-function initCapState(): CapState {
-  const capState: CapState = {
-    caps: {},
-    selectedCapId: null,
-  };
-
-  capsCollected.forEach((cap: Cap) => {
-    capState.caps[cap.elementId] = cap;
-  });
-
+let capState = reactive<CapState>({ caps: {}, selectedCapId: null });
+async function fetchAllCaps() {
+  // From AWS DynamoDB...
   const API_URL = import.meta.env.VITE_AWS_API_URL;
-
-  console.log(API_URL);
-  fetch(`${API_URL}/getCaps`)
+  const returnedCaps = await fetch(`${API_URL}/getCaps`)
     .then((r) => r.json())
-    .then((d) => console.log(d));
+    .then((items) => Cap.formatDynamoDBResponse(items));
 
-  console.log(capState);
-
-  return capState;
+  for (let c of returnedCaps) {
+    capState.caps[c.elementId] = c;
+  }
+  console.info("Caps Loaded", capState.caps);
 }
 
 const breweries = computed<string[]>(() => {
   const breweryNames: string[] = [];
-  capsCollected.forEach(({ breweryName }) => {
+  Object.values(capState.caps).forEach(({ breweryName }) => {
     if (breweryName === "") return;
     breweryNames.push(breweryName);
   });
   return uniq(breweryNames);
+});
+
+const capsCollected = computed(() => {
+  return capState.caps.length;
 });
 
 function saveCap(cap: Cap) {
@@ -47,4 +42,4 @@ function saveCap(cap: Cap) {
   capState.caps[cap.elementId] = cap;
 }
 
-export { capState, breweries, capsCollected, saveCap };
+export { capState, fetchAllCaps, breweries, capsCollected, saveCap };

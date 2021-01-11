@@ -15,7 +15,7 @@
 <script lang="ts">
   import { defineComponent, onMounted, reactive, ref } from "vue";
 
-  import { capState } from "./state/cap-state";
+  import { capState, fetchAllCaps } from "./state/cap-state";
   import capPositions from "./data/cap-positions.json";
 
   import CapLogo from "./components/CapLogo.vue";
@@ -26,7 +26,7 @@
       AppHeader,
     },
     setup() {
-      console.log(Object.values(capState.caps));
+      fetchAllCaps();
       return {
         capState,
       };

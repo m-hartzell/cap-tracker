@@ -33,6 +33,7 @@
       const route = useRoute();
       let capId = ref(route.params.capId);
       let cap = ref(capState.caps[route.params.capId as string]);
+      console.log(cap);
       let date = computed(() => format(cap.value.dateAdded, "MMM dd, yyyy"));
 
       watch(
