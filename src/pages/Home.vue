@@ -57,13 +57,13 @@
           this.capState.selectedCapId = null;
           this.$router.push("/");
         } else if (this.capState.caps[target.id] === undefined) {
-          this.toggleCapInfo(target);
+          // this.toggleAddCapTooltip(target);
         } else {
           this.capState.selectedCapId = target.id;
           this.$router.push(`/${this.capState.selectedCapId}/detail`);
         }
       },
-      toggleCapInfo(target: HTMLElement) {
+      toggleAddCapTooltip(target: HTMLElement) {
         if (this.tooltip) {
           this.capState.selectedCapId = target.id;
           this.popperInstance = createPopper(target, this.tooltip, {
