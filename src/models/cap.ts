@@ -30,7 +30,6 @@ export default class Cap {
   }
 
   static formatDynamoDBResponse(itemArray: DynamoCap[]) {
-    console.log(itemArray);
     return itemArray.map(
       (i) =>
         new Cap(

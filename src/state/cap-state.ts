@@ -1,4 +1,3 @@
-// import capsCollected from "../data/caps-collected";
 import Cap from "../models/cap";
 import { computed, reactive } from "vue";
 import uniq from "ramda/es/uniq";
@@ -21,7 +20,6 @@ async function fetchAllCaps() {
   for (let c of returnedCaps) {
     capState.caps[c.elementId] = c;
   }
-  console.info("Caps Loaded", capState.caps);
 }
 
 const breweries = computed<string[]>(() => {
