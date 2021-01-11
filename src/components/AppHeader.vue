@@ -13,9 +13,9 @@
           </div>
         </router-link>
         <div class="ml-auto">
-          <div class="flex items-center space-x-4">
-            <router-link to="/">Map</router-link>
-            <router-link to="/list">List</router-link>
+          <div class="flex items-center space-x-8">
+            <router-link to="/" active-class="active">Map</router-link>
+            <router-link to="/list" active-class="active">List</router-link>
           </div>
           <!-- <div class="flex justify-between items-center">
             <div>
@@ -52,4 +52,9 @@
   });
 </script>
 
-<style scoped></style>
+<style scoped>
+  .active {
+    color: #847f5a;
+    font-weight: bold;
+  }
+</style>
