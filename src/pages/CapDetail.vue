@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center space-x-8">
+  <div v-if="cap" class="flex items-center space-x-8">
     <div class="w-1/3">
       <cld-image
         class="rounded-full w-24 shadow"
@@ -42,6 +42,10 @@
           cap.value = capState.caps[newParams.capId as string];
         }
       );
+
+      watch(capState.caps, () => {
+        cap.value = capState.caps[route.params.capId as string];
+      });
 
       return {
         capId,
