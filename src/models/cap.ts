@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { parseISO } from "date-fns";
+import capPositions from "./../data/cap-positions.json";
 
 interface DynamoCap extends Cap {
   dateAddedUtc: string;
@@ -27,6 +28,10 @@ export default class Cap {
     this.beerName = beerName;
     this.publicId = publicId;
     this.dateAdded = dateAdded;
+  }
+
+  get position() {
+    return capPositions.find((p) => p.id === this.elementId);
   }
 
   static formatDynamoDBResponse(itemArray: DynamoCap[]) {

@@ -27,7 +27,7 @@
 <script lang="ts">
   import { defineComponent, onBeforeMount, onMounted, ref } from "vue";
   import { createPopper, Instance } from "@popperjs/core";
-  import { capState } from "./../state/cap-state";
+  import { capState, fetchAllCaps } from "./../state/cap-state";
 
   import Panel from "./../components/Panel.vue";
   import OhioMap from "./../components/OhioMap.vue";

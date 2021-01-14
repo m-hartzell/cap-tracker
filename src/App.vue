@@ -3,7 +3,7 @@
     <app-header class="my-4" />
     <main>
       <section>
-        <div class="container mx-auto px-8">
+        <div class="container mx-auto px-2">
           <router-view></router-view>
         </div>
       </section>
@@ -27,6 +27,7 @@
     },
     setup() {
       fetchAllCaps();
+
       return {
         capState,
       };
