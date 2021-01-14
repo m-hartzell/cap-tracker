@@ -13,10 +13,10 @@
           class="flex justify-center items-center w-full h-full bg-green-600 rounded shadow"
         >
           <p
-            class="text-5xl font-bold text-white"
+            class="text-5xl font-bold"
             @click="openAddForm(capState.selectedCapId)"
           >
-            <plus-icon class="w-full h-full"></plus-icon>
+            <plus-icon class="text-white w-full h-full"></plus-icon>
           </p>
         </div>
       </div>
@@ -57,13 +57,14 @@
           this.capState.selectedCapId = null;
           this.$router.push("/");
         } else if (this.capState.caps[target.id] === undefined) {
-          // this.toggleAddCapTooltip(target);
+          console.log(this.capState.caps[target.id]);
+          this.addTooltip(target);
         } else {
           this.capState.selectedCapId = target.id;
           this.$router.push(`/${this.capState.selectedCapId}/detail`);
         }
       },
-      toggleAddCapTooltip(target: HTMLElement) {
+      addTooltip(target: HTMLElement) {
         if (this.tooltip) {
           this.capState.selectedCapId = target.id;
           this.popperInstance = createPopper(target, this.tooltip, {
@@ -74,7 +75,7 @@
       },
       openAddForm(capId: string) {
         this.$router.push(`/${this.capState.selectedCapId}/add`);
-        this.showTooltip = false;
+        this.showTooltip = true;
         this.popperInstance?.destroy();
       },
     },

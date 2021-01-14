@@ -20,12 +20,10 @@
           :cx="position.cx"
           :cy="position.cy"
           :r="position.r"
-          :class="[
-            'fill-current text-white z-10',
-            {
-              shadow: isSelected,
-            },
-          ]"
+          :class="['fill-current text-white z-10']"
+          :stroke="[isSelected(position.id) ? '#d5d5d5' : '']"
+          :stroke-width="6"
+          @click="capClicked($event)"
         />
         <g v-if="Object.entries(capState.caps).length">
           <ohio-map-marker
