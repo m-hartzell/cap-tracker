@@ -45,8 +45,9 @@
 <script lang="ts">
   import { computed, defineComponent, onMounted, ref, watch } from "vue";
   import { useRoute } from "vue-router";
-  import { saveCap } from "./../state/cap-state";
+  import { store as capStore } from "./../state/cap-state";
   import Cap from "./../models/cap";
+  import { propIs } from "ramda";
 
   export default defineComponent({
     props: {
@@ -75,16 +76,13 @@
 
       const saveForm = (event: Event) => {
         event.preventDefault();
-        console.log("Saving ", props.capId, {
-          breweryName: props.capData?.breweryName,
-          beerName: props.capData?.beerName,
-        });
         const cap = new Cap(
           props.capId,
           props.capData?.breweryName,
           props.capData?.beerName
         );
-        saveCap(cap);
+        console.log(`Saving ${props.capId}`, cap);
+        capStore.saveCap(cap);
       };
 
       return {

@@ -18,19 +18,18 @@
   import { computed, defineComponent } from "vue";
   import CldImage from "../components/CldImage.vue";
 
-  import { capState } from "./../state/cap-state";
+  import { store as capStore } from "./../state/cap-state";
 
   export default defineComponent({
     components: { CldImage },
     setup() {
       const sortedCaps = computed(() =>
-        Object.values(capState.caps).sort((a, b) =>
+        Object.values(capStore.state.caps).sort((a, b) =>
           a.dateAdded < b.dateAdded ? 1 : -1
         )
       );
 
       return {
-        capState,
         sortedCaps,
       };
     },

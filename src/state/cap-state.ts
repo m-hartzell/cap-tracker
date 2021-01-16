@@ -9,22 +9,33 @@ interface CapState {
   selectedCapId: string | null;
 }
 
-let capState = reactive<CapState>({ caps: {}, selectedCapId: null });
-async function fetchAllCaps() {
-  // From AWS DynamoDB...
-  const API_URL = import.meta.env.VITE_AWS_API_URL;
-  const returnedCaps = await fetch(`${API_URL}/getCaps`)
-    .then((r) => r.json())
-    .then((items) => Cap.formatDynamoDBResponse(items));
+const API_URL = import.meta.env.VITE_AWS_API_URL;
 
-  for (let c of returnedCaps) {
-    capState.caps[c.elementId] = c;
-  }
-}
+const store = {
+  state: reactive<CapState>({ caps: {}, selectedCapId: null }),
+
+  async fetchAllCaps() {
+    const returnedCaps = await fetch(`${API_URL}/getCaps`)
+      .then((r) => r.json())
+      .then((items) => Cap.formatDynamoDBResponse(items));
+    for (let c of returnedCaps) {
+      this.state.caps[c.elementId] = c;
+    }
+  },
+
+  async saveCap(cap: Cap) {
+    const res = await fetch(`${API_URL}/getCaps`, {
+      method: "POST",
+      body: JSON.stringify(cap.dynamoDBFormat()),
+    });
+    console.log(res);
+    this.state.caps[cap.elementId] = cap;
+  },
+};
 
 const breweries = computed<string[]>(() => {
   const breweryNames: string[] = [];
-  Object.values(capState.caps).forEach(({ breweryName }) => {
+  Object.values(store.state.caps).forEach(({ breweryName }) => {
     if (breweryName === "") return;
     breweryNames.push(breweryName);
   });
@@ -32,12 +43,7 @@ const breweries = computed<string[]>(() => {
 });
 
 const capsCollected = computed(() => {
-  return capState.caps.length;
+  return store.state.caps.length;
 });
 
-function saveCap(cap: Cap) {
-  // TODO
-  capState.caps[cap.elementId] = cap;
-}
-
-export { capState, fetchAllCaps, breweries, capsCollected, saveCap };
+export { store, breweries, capsCollected };

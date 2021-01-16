@@ -30,7 +30,7 @@
 
 <script lang="ts">
   import { defineComponent } from "vue";
-  import { capState } from "./../state/cap-state";
+  import { store as capStore } from "./../state/cap-state";
 
   import CldImage from "./CldImage.vue";
 
@@ -44,15 +44,15 @@
     },
     setup() {
       return {
-        capState,
+        capStore,
       };
     },
     methods: {
       closeBtnClicked() {
-        this.capState.selectedCapId = null;
+        this.capStore.state.selectedCapId = null;
       },
       tooltipClicked() {
-        this.$router.push(`/${capState.selectedCapId}/detail`);
+        this.$router.push(`/${capStore.state.selectedCapId}/detail`);
       },
     },
   });

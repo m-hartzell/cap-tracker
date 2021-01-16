@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { parseISO } from "date-fns";
+import { parseISO, startOfToday } from "date-fns";
 import capPositions from "./../data/cap-positions.json";
 
 interface DynamoCap extends Cap {
@@ -12,14 +12,14 @@ export default class Cap {
   breweryName: string;
   beerName: string;
   publicId: string;
-  dateAdded: Date;
+  dateAdded: string;
 
   constructor(
     elementId: string,
     breweryName: string = "",
     beerName: string = "",
     publicId: string = "",
-    dateAdded: Date = new Date(2020, 11, 19),
+    dateAdded: string = new Date().toISOString(),
     capGuid: string = uuidv4()
   ) {
     this.capGuid = capGuid;
@@ -42,10 +42,21 @@ export default class Cap {
           i.breweryName,
           i.beerName,
           i.publicId,
-          parseISO(i.dateAddedUtc),
+          i.dateAddedUtc,
           i.capGuid
         )
     );
+  }
+
+  dynamoDBFormat() {
+    return {
+      capGuid: this.capGuid,
+      elementId: this.elementId,
+      breweryName: this.breweryName,
+      beerName: this.beerName,
+      publicId: this.publicId,
+      dateAddedUtc: this.dateAdded,
+    };
   }
 
   getImageUrl(transformations: string[] = []) {

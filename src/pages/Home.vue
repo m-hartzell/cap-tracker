@@ -14,7 +14,7 @@
         >
           <p
             class="text-5xl font-bold"
-            @click="openAddForm(capState.selectedCapId)"
+            @click="openAddForm(capStore.state.selectedCapId)"
           >
             <plus-icon class="text-white w-full h-full"></plus-icon>
           </p>
@@ -27,7 +27,7 @@
 <script lang="ts">
   import { defineComponent, onBeforeMount, onMounted, ref } from "vue";
   import { createPopper, Instance } from "@popperjs/core";
-  import { capState, fetchAllCaps } from "./../state/cap-state";
+  import { store as capStore } from "./../state/cap-state";
 
   import Panel from "./../components/Panel.vue";
   import OhioMap from "./../components/OhioMap.vue";
@@ -45,7 +45,7 @@
       const showTooltip = ref<boolean>(false);
 
       return {
-        capState,
+        capStore,
         popperInstance,
         tooltip,
         showTooltip,
@@ -53,20 +53,20 @@
     },
     methods: {
       capClicked(target: HTMLElement) {
-        if (this.capState.selectedCapId == target.id) {
-          this.capState.selectedCapId = null;
+        if (this.capStore.state.selectedCapId == target.id) {
+          this.capStore.state.selectedCapId = null;
           this.$router.push("/");
-        } else if (this.capState.caps[target.id] === undefined) {
-          console.log(this.capState.caps[target.id]);
+        } else if (this.capStore.state.caps[target.id] === undefined) {
+          console.log(this.capStore.state.caps[target.id]);
           this.addTooltip(target);
         } else {
-          this.capState.selectedCapId = target.id;
-          this.$router.push(`/${this.capState.selectedCapId}/detail`);
+          this.capStore.state.selectedCapId = target.id;
+          this.$router.push(`/${this.capStore.state.selectedCapId}/detail`);
         }
       },
       addTooltip(target: HTMLElement) {
         if (this.tooltip) {
-          this.capState.selectedCapId = target.id;
+          this.capStore.state.selectedCapId = target.id;
           this.popperInstance = createPopper(target, this.tooltip, {
             placement: "bottom",
           });
@@ -74,7 +74,7 @@
         }
       },
       openAddForm(capId: string) {
-        this.$router.push(`/${this.capState.selectedCapId}/add`);
+        this.$router.push(`/${this.capStore.state.selectedCapId}/add`);
         this.showTooltip = true;
         this.popperInstance?.destroy();
       },

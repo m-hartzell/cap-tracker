@@ -25,9 +25,9 @@
           :stroke-width="6"
           @click="capClicked($event)"
         />
-        <g v-if="Object.entries(capState.caps).length">
+        <g v-if="Object.entries(capStore.state.caps).length">
           <ohio-map-marker
-            v-for="cap in capState.caps"
+            v-for="cap in capStore.state.caps"
             :key="cap.elementId"
             :cap="cap"
             :is-selected="isSelected(cap.elementId)"
@@ -41,7 +41,7 @@
 
 <script lang="ts">
   import capPositions from "./../data/cap-positions.json";
-  import { capState } from "./../state/cap-state";
+  import { store as capStore } from "./../state/cap-state";
   import { defineComponent, ref, reactive, computed } from "vue";
   import OhioMapMarker from "./OhioMapMarker.vue";
 
@@ -50,19 +50,19 @@
     setup(_props, { emit }) {
       const capClicked = (event: Event) => {
         const target = event.target as HTMLElement;
-        capState.caps[target.id];
+        capStore.state.caps[target.id];
         emit("cap-clicked", target);
       };
 
       return {
         capPositions,
-        capState,
+        capStore,
         capClicked,
       };
     },
     methods: {
       isSelected(capId: string) {
-        return capState.selectedCapId === capId;
+        return capStore.state.selectedCapId === capId;
       },
     },
   });
