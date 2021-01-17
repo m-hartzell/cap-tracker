@@ -53,11 +53,12 @@
     },
     methods: {
       capClicked(target: HTMLElement) {
+        this.popperInstance?.destroy();
+        this.showTooltip = false;
         if (this.capStore.state.selectedCapId == target.id) {
           this.capStore.state.selectedCapId = null;
           this.$router.push("/");
         } else if (this.capStore.state.caps[target.id] === undefined) {
-          console.log(this.capStore.state.caps[target.id]);
           this.addTooltip(target);
         } else {
           this.capStore.state.selectedCapId = target.id;
@@ -74,9 +75,9 @@
         }
       },
       openAddForm(capId: string) {
-        this.$router.push(`/${this.capStore.state.selectedCapId}/add`);
-        this.showTooltip = true;
         this.popperInstance?.destroy();
+        this.showTooltip = false;
+        this.$router.push(`/${this.capStore.state.selectedCapId}/add`);
       },
     },
   });
