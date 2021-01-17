@@ -62,8 +62,8 @@
     },
     setup(props) {
       let fileInput = ref<HTMLInputElement>();
+
       onMounted(() => {
-        console.log(`On mounted Ref: `, fileInput.value);
         if (fileInput.value) {
           fileInput.value.onchange = (e) => {
             const fileInput = e.target as HTMLInputElement;
