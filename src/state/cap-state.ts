@@ -1,6 +1,7 @@
 import Cap from "../models/cap";
 import { computed, reactive } from "vue";
 import uniq from "ramda/es/uniq";
+import * as CloudinarySvc from "./../services/cloudinary";
 
 interface CapState {
   caps: {
@@ -30,6 +31,10 @@ const store = {
     });
     console.log(res);
     this.state.caps[cap.elementId] = cap;
+  },
+
+  async uploadImage(image: File) {
+    return await CloudinarySvc.upload(image).then((data) => JSON.parse(data));
   },
 };
 

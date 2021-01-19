@@ -37,7 +37,9 @@
       </div>
     </fieldset>
     <fieldset>
-      <button type="submit" @click="saveForm" class="bg-amber-500">Save</button>
+      <button type="button" @click="capFormSubmit" class="bg-amber-500">
+        Save
+      </button>
     </fieldset>
   </form>
 </template>
@@ -63,31 +65,33 @@
     setup(props) {
       let fileInput = ref<HTMLInputElement>();
 
-      onMounted(() => {
-        if (fileInput.value) {
-          fileInput.value.onchange = (e) => {
-            const fileInput = e.target as HTMLInputElement;
-            if (fileInput.files) {
-              // Get thumb
-            }
-          };
+      const capFormSubmit = async () => {
+        let uploadedImgData = null;
+        let img = null;
+        if (fileInput && fileInput.value?.files) {
+          img = fileInput.value.files[0];
+          try {
+            uploadedImgData = await capStore.uploadImage(img);
+          } catch (e) {
+            throw new Error(`Cloudinary Upload Failed: ${e.message}`);
+          }
+        } else {
+          throw new Error("No image in file input");
         }
-      });
 
-      const saveForm = (event: Event) => {
-        event.preventDefault();
         const cap = new Cap(
           props.capId,
           props.capData?.breweryName,
-          props.capData?.beerName
+          props.capData?.beerName,
+          uploadedImgData.public_id
         );
-        console.log(`Saving ${props.capId}`, cap);
+        console.log(`Saving ${props.capId}`, cap, uploadedImgData);
         capStore.saveCap(cap);
       };
 
       return {
         fileInput,
-        saveForm,
+        capFormSubmit,
       };
     },
     methods: {},
