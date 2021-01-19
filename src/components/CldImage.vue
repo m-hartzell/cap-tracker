@@ -11,10 +11,6 @@
         type: String,
         default: "hartzelldev",
       },
-      folder: {
-        type: String,
-        default: "cap-tracker",
-      },
       publicId: {
         type: String,
         required: true,
@@ -31,7 +27,7 @@
 
     setup(props) {
       const computedUrl = computed(() => {
-        return `https://res.cloudinary.com/${props.cloudName}/image/upload/${props.transformations}/${props.folder}/${props.publicId}${props.ext}`;
+        return `https://res.cloudinary.com/${props.cloudName}/image/upload/${props.transformations}/${props.publicId}${props.ext}`;
       });
 
       return {
