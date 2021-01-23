@@ -3,7 +3,7 @@
     <app-header class="my-4" />
     <main>
       <section>
-        <div class="container mx-auto px-8">
+        <div class="container mx-auto px-2">
           <router-view></router-view>
         </div>
       </section>
@@ -15,7 +15,7 @@
 <script lang="ts">
   import { defineComponent, onMounted, reactive, ref } from "vue";
 
-  import { capState, fetchAllCaps } from "./state/cap-state";
+  import { store } from "./state/cap-state";
   import capPositions from "./data/cap-positions.json";
 
   import CapLogo from "./components/CapLogo.vue";
@@ -26,16 +26,7 @@
       AppHeader,
     },
     setup() {
-      fetchAllCaps();
-      return {
-        capState,
-      };
+      store.fetchAllCaps();
     },
   });
 </script>
-
-<style lang="postcss">
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-</style>

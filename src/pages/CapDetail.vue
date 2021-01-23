@@ -23,7 +23,7 @@
   import { computed, defineComponent, ref, watch } from "vue";
   import { useRoute } from "vue-router";
   import { format } from "date-fns";
-  import { capState } from "../state/cap-state";
+  import { store as capStore } from "../state/cap-state";
   import CapImage from "../components/CapImage.vue";
   import CldImage from "../components/CldImage.vue";
 
@@ -32,19 +32,21 @@
     setup() {
       const route = useRoute();
       let capId = ref(route.params.capId);
-      let cap = ref(capState.caps[route.params.capId as string]);
-      let date = computed(() => format(cap.value.dateAdded, "MMM dd, yyyy"));
+      let cap = ref(capStore.state.caps[route.params.capId as string]);
+      let date = computed(() =>
+        format(new Date(cap.value.dateAdded), "MMM dd, yyyy")
+      );
 
       watch(
         () => route.params,
         async (newParams) => {
           capId.value = newParams.capId;
-          cap.value = capState.caps[newParams.capId as string];
+          cap.value = capStore.state.caps[newParams.capId as string];
         }
       );
 
-      watch(capState.caps, () => {
-        cap.value = capState.caps[route.params.capId as string];
+      watch(capStore.state.caps, () => {
+        cap.value = capStore.state.caps[route.params.capId as string];
       });
 
       return {

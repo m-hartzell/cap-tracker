@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 fieldset {
   margin-bottom: theme("spacing.2");
 }

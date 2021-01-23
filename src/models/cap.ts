@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import { parseISO } from "date-fns";
+import { parseISO, startOfToday } from "date-fns";
+import capPositions from "./../data/cap-positions.json";
 
 interface DynamoCap extends Cap {
   dateAddedUtc: string;
@@ -11,14 +12,14 @@ export default class Cap {
   breweryName: string;
   beerName: string;
   publicId: string;
-  dateAdded: Date;
+  dateAdded: string;
 
   constructor(
     elementId: string,
     breweryName: string = "",
     beerName: string = "",
     publicId: string = "",
-    dateAdded: Date = new Date(2020, 11, 19),
+    dateAdded: string = new Date().toISOString(),
     capGuid: string = uuidv4()
   ) {
     this.capGuid = capGuid;
@@ -29,6 +30,10 @@ export default class Cap {
     this.dateAdded = dateAdded;
   }
 
+  get position() {
+    return capPositions.find((p) => p.id === this.elementId);
+  }
+
   static formatDynamoDBResponse(itemArray: DynamoCap[]) {
     return itemArray.map(
       (i) =>
@@ -37,18 +42,41 @@ export default class Cap {
           i.breweryName,
           i.beerName,
           i.publicId,
-          parseISO(i.dateAddedUtc),
+          i.dateAddedUtc,
           i.capGuid
         )
     );
   }
 
+  static getPlaceholderThumbUrl() {
+    return `
+      //res.cloudinary.com/hartzelldev/image/upload/
+      e_colorize,co_rgb:333333,h_100,w_100,r_max/
+      cap-tracker/maumee-bay_pljchr.png
+    `;
+  }
+
+  dynamoDBFormat() {
+    return {
+      capGuid: this.capGuid,
+      elementId: this.elementId,
+      breweryName: this.breweryName,
+      beerName: this.beerName,
+      publicId: this.publicId,
+      dateAddedUtc: this.dateAdded,
+    };
+  }
+
   getImageUrl(transformations: string[] = []) {
+    if (!this.publicId) return Cap.getPlaceholderThumbUrl();
+
     const t = transformations.join(",") + "/";
-    return `//res.cloudinary.com/hartzelldev/image/upload/${t}cap-tracker/${this.publicId}.png`;
+    return `//res.cloudinary.com/hartzelldev/image/upload/${t}${this.publicId}.png`;
   }
 
   getMapThumbImg() {
-    return `//res.cloudinary.com/hartzelldev/image/upload/h_100,w_100,r_max/cap-tracker/${this.publicId}.png`;
+    if (!this.publicId) return Cap.getPlaceholderThumbUrl();
+
+    return `//res.cloudinary.com/hartzelldev/image/upload/h_100,w_100,r_max/${this.publicId}.png`;
   }
 }

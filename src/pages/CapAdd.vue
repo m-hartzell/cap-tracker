@@ -37,7 +37,9 @@
       </div>
     </fieldset>
     <fieldset>
-      <button type="submit" @click="saveForm" class="bg-amber-500">Save</button>
+      <button type="button" @click="capFormSubmit" class="bg-amber-500">
+        Save
+      </button>
     </fieldset>
   </form>
 </template>
@@ -45,8 +47,9 @@
 <script lang="ts">
   import { computed, defineComponent, onMounted, ref, watch } from "vue";
   import { useRoute } from "vue-router";
-  import { saveCap } from "./../state/cap-state";
+  import { store as capStore } from "./../state/cap-state";
   import Cap from "./../models/cap";
+  import { propIs } from "ramda";
 
   export default defineComponent({
     props: {
@@ -61,35 +64,34 @@
     },
     setup(props) {
       let fileInput = ref<HTMLInputElement>();
-      onMounted(() => {
-        console.log(`On mounted Ref: `, fileInput.value);
-        if (fileInput.value) {
-          fileInput.value.onchange = (e) => {
-            const fileInput = e.target as HTMLInputElement;
-            if (fileInput.files) {
-              // Get thumb
-            }
-          };
-        }
-      });
 
-      const saveForm = (event: Event) => {
-        event.preventDefault();
-        console.log("Saving ", props.capId, {
-          breweryName: props.capData?.breweryName,
-          beerName: props.capData?.beerName,
-        });
+      const capFormSubmit = async () => {
+        let uploadedImgData = null;
+        let img = null;
+        if (fileInput && fileInput.value?.files) {
+          img = fileInput.value.files[0];
+          try {
+            uploadedImgData = await capStore.uploadImage(img);
+          } catch (e) {
+            throw new Error(`Cloudinary Upload Failed: ${e.message}`);
+          }
+        } else {
+          throw new Error("No image in file input");
+        }
+
         const cap = new Cap(
           props.capId,
           props.capData?.breweryName,
-          props.capData?.beerName
+          props.capData?.beerName,
+          uploadedImgData.public_id
         );
-        saveCap(cap);
+        console.log(`Saving ${props.capId}`, cap, uploadedImgData);
+        capStore.saveCap(cap);
       };
 
       return {
         fileInput,
-        saveForm,
+        capFormSubmit,
       };
     },
     methods: {},

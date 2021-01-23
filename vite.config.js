@@ -1,5 +1,5 @@
-import vue from "@vitejs/plugin-vue";
+const vue = require("@vitejs/plugin-vue");
 
-export default {
+module.exports = {
   plugins: [vue()],
 };
