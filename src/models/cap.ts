@@ -50,7 +50,7 @@ export default class Cap {
 
   static getPlaceholderThumbUrl() {
     return `
-      //res.cloudinary.com/hartzelldev/image/upload/
+      https://res.cloudinary.com/hartzelldev/image/upload/
       e_colorize,co_rgb:333333,h_100,w_100,r_max/
       cap-tracker/maumee-bay_pljchr.png
     `;
@@ -71,12 +71,12 @@ export default class Cap {
     if (!this.publicId) return Cap.getPlaceholderThumbUrl();
 
     const t = transformations.join(",") + "/";
-    return `//res.cloudinary.com/hartzelldev/image/upload/${t}${this.publicId}.png`;
+    return `https://res.cloudinary.com/hartzelldev/image/upload/${t}${this.publicId}.png`;
   }
 
   getMapThumbImg() {
     if (!this.publicId) return Cap.getPlaceholderThumbUrl();
 
-    return `//res.cloudinary.com/hartzelldev/image/upload/h_100,w_100,r_max/${this.publicId}.png`;
+    return `https://res.cloudinary.com/hartzelldev/image/upload/h_100,w_100,r_max/${this.publicId}.png`;
   }
 }

@@ -2,6 +2,7 @@
   <g class="relative">
     <image
       :id="cap.elementId"
+      ref="el"
       :href="cap.getMapThumbImg()"
       :height="height"
       :width="width"
@@ -12,14 +13,20 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, ref } from "vue";
+  import { computed, defineComponent, onMounted, ref } from "vue";
 
   export default defineComponent({
     props: ["cap", "isSelected"],
-    setup(props) {
-      const el = ref(null);
+    setup(props, context) {
+      const el = ref<HTMLElement | null>(null);
       const width = computed(() => (props.isSelected ? 35 : 25));
       const height = computed(() => (props.isSelected ? 35 : 25));
+
+      onMounted(() => {
+        if (el.value != null)
+          el.value.addEventListener("load", () => context.emit("imageLoaded"));
+      });
+
       return {
         el,
         width,
