@@ -16,13 +16,13 @@
         <circle
           v-for="position in capPositions"
           ref="el"
-          :id="position.id"
+          :data-element-id="position.id"
           :key="position.id"
           :cx="position.cx"
           :cy="position.cy"
           :r="position.r"
-          :class="['fill-current text-white z-10']"
-          :stroke="[isSelected(position.id) ? '#d5d5d5' : '']"
+          :class="['fill-current text-white', isSelected(position.id) ? 'z-10' : 'z-5']"
+          :stroke="isSelected(position.id) ? '#d5d5d5' : ''"
           :stroke-width="6"
           @click="capClicked($event)"
         />
@@ -30,20 +30,18 @@
         <g
           :class="[
             'caps-group',
-            'transition-opacity',
-            'duration-300',
-            allImagesLoaded ? 'opacity-1' : 'opacity-0',
           ]"
-          v-show="allImagesLoaded"
         >
           <ohio-map-marker
             v-for="cap in capStore.state.caps"
             :key="cap.elementId"
             :cap="cap"
+            :data-element-id="cap.elementId"
             :is-selected="isSelected(cap.elementId)"
             @click="capClicked($event)"
-            @imageLoaded="onImageLoad"
+            :id="cap.elementId"
           />
+          <use :xlink:href="`#${capStore.state.selectedCapId}`" class="shadow-lg" />
         </g>
       </g>
     </svg>
@@ -53,28 +51,19 @@
 <script lang="ts">
   import capPositions from "./../data/cap-positions.json";
   import { store as capStore } from "./../state/cap-state";
-  import { defineComponent, ref, reactive, computed } from "vue";
+  import { defineComponent } from "vue";
   import OhioMapMarker from "./OhioMapMarker.vue";
 
   export default defineComponent({
     components: { OhioMapMarker },
     setup(_props, { emit }) {
-      const imageLoadCount = ref(0);
-      const onImageLoad = () => imageLoadCount.value++;
-      const allImagesLoaded = computed(
-        () =>
-          imageLoadCount.value === Object.entries(capStore.state.caps).length
-      );
 
       const capClicked = (event: Event) => {
-        const target = event.target as HTMLElement;
-        capStore.state.caps[target.id];
+        const target = event.currentTarget as HTMLElement;
         emit("cap-clicked", target);
       };
 
       return {
-        allImagesLoaded,
-        onImageLoad,
         capPositions,
         capStore,
         capClicked,
@@ -82,7 +71,7 @@
     },
     methods: {
       isSelected(capId: string) {
-        return capStore.state.selectedCapId === capId;
+        return this.capStore.state.selectedCapId === capId;
       },
     },
   });

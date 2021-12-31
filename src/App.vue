@@ -13,12 +13,8 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onMounted, reactive, ref } from "vue";
-
+  import { defineComponent } from "vue";
   import { store } from "./state/cap-state";
-  import capPositions from "./data/cap-positions.json";
-
-  import CapLogo from "./components/CapLogo.vue";
   import AppHeader from "./components/AppHeader.vue";
 
   export default defineComponent({
