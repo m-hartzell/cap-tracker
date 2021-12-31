@@ -14,7 +14,7 @@
         >
           <p
             class="text-5xl font-bold"
-            @click="openAddForm(capStore.state.selectedCapId)"
+            @click="openAddForm(capStore.state.selectedCapId ?? '')"
           >
             <plus-icon class="text-white w-full h-full"></plus-icon>
           </p>
@@ -55,13 +55,18 @@
       capClicked(target: HTMLElement) {
         this.popperInstance?.destroy();
         this.showTooltip = false;
-        if (this.capStore.state.selectedCapId == target.id) {
+        if (!target.dataset.elementId) return
+
+        if (this.capStore.state.selectedCapId == target.dataset.elementId) {
           this.capStore.state.selectedCapId = null;
           this.$router.push("/");
-        } else if (this.capStore.state.caps[target.id] === undefined) {
+        } else if (this.capStore.state.caps[target.dataset.elementId] === undefined) {
+          console.log("Test")
+
           this.addTooltip(target);
         } else {
-          this.capStore.state.selectedCapId = target.id;
+          console.log("Test")
+          this.capStore.state.selectedCapId = target.dataset?.elementId ?? "";
           this.$router.push(`/${this.capStore.state.selectedCapId}/detail`);
         }
       },
@@ -74,7 +79,9 @@
           this.showTooltip = true;
         }
       },
-      openAddForm(capId: string) {
+      openAddForm(capId?: string) {
+        if (!capId) return;
+        
         this.popperInstance?.destroy();
         this.showTooltip = false;
         this.$router.push(`/${this.capStore.state.selectedCapId}/add`);
