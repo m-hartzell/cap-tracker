@@ -45,11 +45,9 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, onMounted, ref, watch } from "vue";
-  import { useRoute } from "vue-router";
+  import { defineComponent, ref } from "vue";
   import { store as capStore } from "./../state/cap-state";
   import Cap from "./../models/cap";
-  import { propIs } from "ramda";
 
   export default defineComponent({
     props: {

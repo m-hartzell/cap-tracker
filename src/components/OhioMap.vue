@@ -30,11 +30,7 @@
         <g
           :class="[
             'caps-group',
-            'transition-opacity',
-            'duration-300',
-            allImagesLoaded ? 'opacity-1' : 'opacity-0',
           ]"
-          v-show="allImagesLoaded"
         >
           <ohio-map-marker
             v-for="cap in capStore.state.caps"
@@ -43,7 +39,6 @@
             :data-element-id="cap.elementId"
             :is-selected="isSelected(cap.elementId)"
             @click="capClicked($event)"
-            @imageLoaded="onImageLoad"
             :id="cap.elementId"
           />
           <use :xlink:href="`#${capStore.state.selectedCapId}`" class="shadow-lg" />
@@ -56,31 +51,19 @@
 <script lang="ts">
   import capPositions from "./../data/cap-positions.json";
   import { store as capStore } from "./../state/cap-state";
-  import { defineComponent, ref, computed } from "vue";
+  import { defineComponent } from "vue";
   import OhioMapMarker from "./OhioMapMarker.vue";
 
   export default defineComponent({
     components: { OhioMapMarker },
     setup(_props, { emit }) {
-      const imageLoadCount = ref(0);
-      const onImageLoad = () => imageLoadCount.value++;
-      const allImagesLoaded = computed(
-        () => {
-          return true;
-          console.log(imageLoadCount)
-          return imageLoadCount.value === Object.entries(capStore.state.caps).length
-        }
-      );
 
       const capClicked = (event: Event) => {
         const target = event.currentTarget as HTMLElement;
-        // capStore.state.caps[target.id];
         emit("cap-clicked", target);
       };
 
       return {
-        allImagesLoaded,
-        onImageLoad,
         capPositions,
         capStore,
         capClicked,
@@ -88,7 +71,7 @@
     },
     methods: {
       isSelected(capId: string) {
-        return capStore.state.selectedCapId === capId;
+        return this.capStore.state.selectedCapId === capId;
       },
     },
   });

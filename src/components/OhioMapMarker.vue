@@ -17,16 +17,11 @@
 
   export default defineComponent({
     props: ["cap", "isSelected"],
-    setup(props, context) {
+    setup(props) {
       const el = ref<HTMLElement | null>(null);
       const width = computed(() => (props.isSelected ? 32 : 22));
       const height = computed(() => (props.isSelected ? 32 : 22));
       const isFaded = computed(() => capStore.state.selectedCapId && !props.isSelected);
-
-      onMounted(() => {
-        if (el.value != null)
-          el.value.addEventListener("load", () => context.emit("imageLoaded"));
-      });
 
       return {
         el,

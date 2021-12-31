@@ -14,7 +14,7 @@
         >
           <p
             class="text-5xl font-bold"
-            @click="openAddForm(capStore.state.selectedCapId ?? '')"
+            @click="onPlusIconClick"
           >
             <plus-icon class="text-white w-full h-full"></plus-icon>
           </p>
@@ -25,9 +25,9 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onBeforeMount, onMounted, ref } from "vue";
+  import { defineComponent, reactive, ref } from "vue";
   import { createPopper, Instance } from "@popperjs/core";
-  import { store as capStore } from "./../state/cap-state";
+  import { store } from "./../state/cap-state";
 
   import Panel from "./../components/Panel.vue";
   import OhioMap from "./../components/OhioMap.vue";
@@ -43,6 +43,7 @@
       const tooltip = ref<HTMLElement>();
       const popperInstance = ref<Instance>();
       const showTooltip = ref<boolean>(false);
+      const capStore = reactive(store);
 
       return {
         capStore,
@@ -61,25 +62,25 @@
           this.capStore.state.selectedCapId = null;
           this.$router.push("/");
         } else if (this.capStore.state.caps[target.dataset.elementId] === undefined) {
-          console.log("Test")
-
           this.addTooltip(target);
         } else {
-          console.log("Test")
           this.capStore.state.selectedCapId = target.dataset?.elementId ?? "";
           this.$router.push(`/${this.capStore.state.selectedCapId}/detail`);
         }
       },
       addTooltip(target: HTMLElement) {
         if (this.tooltip) {
-          this.capStore.state.selectedCapId = target.id;
+          this.capStore.state.selectedCapId = target.dataset.elementId ?? "";
           this.popperInstance = createPopper(target, this.tooltip, {
             placement: "bottom",
           });
           this.showTooltip = true;
         }
       },
-      openAddForm(capId?: string) {
+      onPlusIconClick() {
+        this.openAddForm(this.capStore.state.selectedCapId ?? "");
+      },
+      openAddForm(capId: string | null) {
         if (!capId) return;
         
         this.popperInstance?.destroy();
